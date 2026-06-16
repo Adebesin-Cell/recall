@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import FlashOverlay from '~/components/FlashOverlay.vue'
 import GameOverScreen from '~/components/GameOverScreen.vue'
 import MemorizeScreen from '~/components/MemorizeScreen.vue'
 import MenuScreen from '~/components/MenuScreen.vue'
@@ -7,6 +8,7 @@ import RecallScreen from '~/components/RecallScreen.vue'
 import ResultScreen from '~/components/ResultScreen.vue'
 import TopBar from '~/components/TopBar.vue'
 import { useAutosave } from '~/composables/useAutosave'
+import { useFlash } from '~/composables/useFlash'
 import { useName } from '~/composables/useName'
 import { useTimer } from '~/composables/useTimer'
 import { beginRecall, type GameState, nextLevel, startGame, submit } from '~/game/engine'
@@ -22,6 +24,7 @@ const howTo = [
 const route = useRoute()
 const { profile, recordRun } = useAutosave('numbers')
 const { name } = useName()
+const { flash, trigger } = useFlash()
 
 const state = ref<GameState | null>(null)
 const finalBoard = ref<Entry[]>([])
@@ -61,7 +64,9 @@ function handleReady() {
 function handleSubmit(value: string) {
   if (state.value?.phase !== 'recall') return
   recallTimer.stop()
-  state.value = submit(state.value, value, recallTimer.remaining.value)
+  const next = submit(state.value, value, recallTimer.remaining.value)
+  trigger(next.phase === 'gameover' ? 'wrong' : 'correct')
+  state.value = next
 }
 
 function handleNext() {
@@ -96,6 +101,7 @@ watch(() => state.value?.phase, (phase) => {
 <template>
   <div>
     <TopBar how-to-title="HOW TO PLAY · NUMBERS" :how-to="howTo" />
+    <FlashOverlay :flash="flash" />
     <ClientOnly>
       <div :class="frame()" style="height: 100dvh">
         <MenuScreen

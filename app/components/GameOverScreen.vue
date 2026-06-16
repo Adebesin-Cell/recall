@@ -20,7 +20,7 @@ const cls = panel()
 </script>
 
 <template>
-  <section data-mode="safe" :class="[cls.root, css({ bg: 'bg', color: 'fg' })]">
+  <section data-mode="safe" :class="[cls.root, css({ bg: 'bg', color: 'fg', animation: 'sweepIn 340ms ease-out' })]">
     <div>
       <h1 :class="cls.heading">
         {{ won ? 'PERFECT RUN' : 'GAME OVER' }}

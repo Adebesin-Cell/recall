@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import FlashOverlay from '~/components/FlashOverlay.vue'
 import GameOverScreen from '~/components/GameOverScreen.vue'
 import MathScreen from '~/components/MathScreen.vue'
 import MenuScreen from '~/components/MenuScreen.vue'
 import TopBar from '~/components/TopBar.vue'
 import { useAutosave } from '~/composables/useAutosave'
+import { useFlash } from '~/composables/useFlash'
 import { useName } from '~/composables/useName'
 import { useTimer } from '~/composables/useTimer'
 import { mathScore, type MathProblem, mathTimeMs, problemForLevel } from '~/game/math'
@@ -20,6 +22,7 @@ const howTo = [
 const route = useRoute()
 const { profile, recordRun } = useAutosave('math')
 const { name } = useName()
+const { flash, trigger } = useFlash()
 
 type Phase = 'idle' | 'playing' | 'gameover'
 const phase = ref<Phase>('idle')
@@ -70,6 +73,7 @@ function submit(value: string) {
   if (phase.value !== 'playing' || !problem.value) return
   timer.stop()
   const correct = value !== '' && Number(value) === problem.value.answer
+  trigger(correct ? 'correct' : 'wrong')
   if (!correct) {
     phase.value = 'gameover'
     finishRun()
@@ -86,6 +90,7 @@ function submit(value: string) {
 <template>
   <div>
     <TopBar how-to-title="HOW TO PLAY · MATH SPRINT" :how-to="howTo" />
+    <FlashOverlay :flash="flash" />
     <ClientOnly>
       <div :class="frame()" style="height: 100dvh">
         <MenuScreen

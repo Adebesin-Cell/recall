@@ -188,6 +188,14 @@ export default defineConfig({
           '0%, 100%': { textShadow: '0 0 8px rgba(108,92,231,0.55)' },
           '50%': { textShadow: '0 0 28px rgba(108,92,231,0.95)' },
         },
+        sweepIn: {
+          '0%': { clipPath: 'inset(0 0 100% 0)', opacity: '0.5' },
+          '100%': { clipPath: 'inset(0 0 0 0)', opacity: '1' },
+        },
+        flash: {
+          '0%': { opacity: '0.5' },
+          '100%': { opacity: '0' },
+        },
       },
     },
   },

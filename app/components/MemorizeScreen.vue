@@ -13,8 +13,9 @@ defineEmits<{ ready: [] }>()
     <p :class="css({ textStyle: 'label', color: 'accent' })">
       MEMORIZE · LV {{ level }}
     </p>
-    <TimerArc :fraction="fraction" />
-    <BigNumber :value="value" glow />
+    <TimerArc :fraction="fraction">
+      <BigNumber :value="value" glow compact />
+    </TimerArc>
     <button
       type="button"
       :class="button({ visual: 'outline', size: 'sm' })"

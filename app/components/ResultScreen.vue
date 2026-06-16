@@ -15,7 +15,7 @@ defineEmits<{ next: [] }>()
 <template>
   <section
     data-mode="safe"
-    :class="css({ w: 'full', maxW: '40rem', bg: 'bg', color: 'fg', display: 'grid', gap: '8', p: { base: '8', md: '10' } })"
+    :class="css({ w: 'full', maxW: '40rem', bg: 'bg', color: 'fg', display: 'grid', gap: '8', p: { base: '8', md: '10' }, animation: 'sweepIn 340ms ease-out' })"
   >
     <div>
       <h1 :class="css({ textStyle: 'display', fontSize: { base: '7xl', md: '8xl' } })">
