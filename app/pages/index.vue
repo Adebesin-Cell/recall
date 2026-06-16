@@ -7,7 +7,7 @@ import { frame } from '~~/styled-system/patterns'
 const games = [
   { to: '/numbers', name: 'NUMBERS', desc: 'Memorize a number, type it back before the timer drains.', ready: true },
   { to: '/stroop', name: 'STROOP', desc: 'Does the ink color match the word? Decide fast.', ready: true },
-  { to: '/math', name: 'MATH SPRINT', desc: 'Solve multiplication against the clock.', ready: false },
+  { to: '/math', name: 'MATH SPRINT', desc: 'Solve multiplication against the clock.', ready: true },
   { to: '/words', name: 'WORD FORM', desc: 'Build valid words from the letters you are given.', ready: false },
 ]
 
