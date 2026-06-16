@@ -1,144 +1,46 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import GameOverScreen from '~/components/GameOverScreen.vue'
-import MemorizeScreen from '~/components/MemorizeScreen.vue'
-import MenuScreen from '~/components/MenuScreen.vue'
-import RecallScreen from '~/components/RecallScreen.vue'
-import ResultScreen from '~/components/ResultScreen.vue'
-import { useAutosave } from '~/composables/useAutosave'
-import { useTimer } from '~/composables/useTimer'
-import { beginRecall, type GameState, nextLevel, startGame, submit } from '~/game/engine'
-import { decodeRun, encodeRun } from '~/share/codec'
+import GameTile from '~/components/GameTile.vue'
 import { css } from '~~/styled-system/css'
 
 const frame = css({ minH: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', p: '6' })
 
-const route = useRoute()
-const { profile, recordRun } = useAutosave()
-
-const state = ref<GameState | null>(null)
-
-// Capture an incoming shared run ONCE — the challenge to beat and the seed to
-// replay. We then overwrite ?r= with the player's own live state as they play,
-// so this snapshot must be captured non-reactively (not from a computed).
-const incoming = decodeRun(typeof route.query.r === 'string' ? route.query.r : '')
-
-// The challenge banner compares against the original shared score.
-const challenge = computed(() => (incoming ? { score: incoming.score } : null))
-
-// Dynamic OG card when arriving via a shared ?r= run.
-if (incoming) {
-  defineOgImageComponent('OgRun', { score: incoming.score, level: incoming.levelReached })
-}
-
-// Mirror the live run into the URL (?r=) without a navigation, so a refresh or
-// copied link always reflects the player's current seed/level/score/streak.
-function syncUrl() {
-  if (!state.value || typeof window === 'undefined') return
-  const r = encodeRun({
-    seed: state.value.seed,
-    levelReached: state.value.level,
-    score: state.value.score,
-    streak: state.value.streak,
-  })
-  window.history.replaceState(window.history.state, '', `?r=${r}`)
-}
-
-const memorizeTimer = useTimer(() => {
-  if (state.value?.phase === 'memorize') state.value = beginRecall(state.value)
-})
-const recallTimer = useTimer(() => {
-  if (state.value?.phase === 'recall') handleSubmit('') // timeout = wrong
-})
-
-function newSeed(): number {
-  return Math.floor(Math.random() * 2_147_483_647)
-}
-
-function begin() {
-  // Replay the challenger's exact sequence if one was shared, else a fresh seed.
-  state.value = startGame(incoming?.seed ?? newSeed())
-}
-
-function handleReady() {
-  if (state.value?.phase === 'memorize') {
-    memorizeTimer.stop()
-    state.value = beginRecall(state.value)
-  }
-}
-
-function handleSubmit(value: string) {
-  if (state.value?.phase !== 'recall') return
-  recallTimer.stop()
-  state.value = submit(state.value, value, recallTimer.remaining.value)
-}
-
-function handleNext() {
-  if (state.value) state.value = nextLevel(state.value)
-}
-
-function handleAgain() {
-  begin()
-}
-
-// Drive timers off phase transitions.
-watch(() => state.value?.phase, (phase) => {
-  if (!state.value) return
-  if (phase === 'memorize') memorizeTimer.start(state.value.config.memorizeMs)
-  if (phase === 'recall') recallTimer.start(state.value.config.inputMs)
-  if (phase === 'gameover' || phase === 'won') {
-    recordRun({ levelReached: state.value.level, score: state.value.score, seed: state.value.seed })
-  }
-  syncUrl() // keep ?r= in sync with the live run on every phase change
-})
+const games = [
+  { to: '/numbers', name: 'NUMBERS', desc: 'Memorize a number, type it back before the timer drains.', ready: true },
+  { to: '/stroop', name: 'STROOP', desc: 'Does the ink color match the word? Decide fast.', ready: true },
+  { to: '/math', name: 'MATH SPRINT', desc: 'Solve multiplication against the clock.', ready: false },
+  { to: '/words', name: 'WORD FORM', desc: 'Build valid words from the letters you are given.', ready: false },
+]
 </script>
 
 <template>
-  <ClientOnly>
-    <div :class="frame" :style="{ height: '100dvh' }">
-      <MenuScreen
-        v-if="!state || state.phase === 'idle'"
-        :best-level="profile.bestLevel"
-        :best-score="profile.bestScore"
-        @start="begin"
-      />
-    <MemorizeScreen
-      v-else-if="state.phase === 'memorize'"
-      :value="state.current"
-      :level="state.level"
-      :fraction="memorizeTimer.fraction.value"
-      @ready="handleReady"
-    />
-    <RecallScreen
-      v-else-if="state.phase === 'recall'"
-      :level="state.level"
-      :fraction="recallTimer.fraction.value"
-      @submit="handleSubmit"
-    />
-    <ResultScreen
-      v-else-if="state.phase === 'result'"
-      :score="state.score"
-      :last-gained="state.lastGained"
-      :streak="state.streak"
-      :level="state.level"
-      :seed="state.seed"
-      :challenge="challenge"
-      @next="handleNext"
-    />
-      <GameOverScreen
-        v-else
-        :score="state.score"
-        :level="state.level"
-        :streak="state.streak"
-        :seed="state.seed"
-        :won="state.phase === 'won'"
-        @again="handleAgain"
-      />
-    </div>
-    <template #fallback>
-      <div :class="frame">
-        <MenuScreen :best-level="0" :best-score="0" />
+  <div :class="frame" :style="{ minHeight: '100dvh' }">
+    <section :class="css({ w: 'full', maxW: '46rem', display: 'grid', gap: '10' })">
+      <div :class="css({ display: 'grid', gap: '3' })">
+        <p :class="css({ textStyle: 'label', color: 'accent' })">
+          ACTIVE-RECALL ARCADE
+        </p>
+        <h1 :class="css({ textStyle: 'display', fontSize: { base: '7xl', md: '9xl' }, color: 'fg' })">
+          RECALL
+        </h1>
+        <p :class="css({ textStyle: 'body', maxW: '30rem', opacity: 0.7, lineHeight: '1.5' })">
+          Fast little games to sharpen your memory, focus, and reaction. Pick a mode, race the
+          clock, and climb the levels — each run gets harder as you go.
+        </p>
+        <p :class="css({ textStyle: 'label', opacity: 0.55, mt: '1' })">
+          PICK A GAME TO PLAY
+        </p>
       </div>
-    </template>
-  </ClientOnly>
+
+      <div :class="css({ display: 'grid', gridTemplateColumns: { base: '1fr', sm: '1fr 1fr' }, gap: '4' })">
+        <GameTile
+          v-for="game in games"
+          :key="game.to"
+          :to="game.to"
+          :name="game.name"
+          :desc="game.desc"
+          :ready="game.ready"
+        />
+      </div>
+    </section>
+  </div>
 </template>

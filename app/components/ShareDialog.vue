@@ -11,7 +11,9 @@ const { copy, copied } = useClipboard()
 const shareUrl = computed(() => {
   const r = encodeRun({ seed: props.seed, levelReached: props.levelReached, score: props.score, streak: props.streak })
   const origin = typeof window === 'undefined' ? 'https://recall.app' : window.location.origin
-  return `${origin}/?r=${r}`
+  // Share the CURRENT game's route so the challenge replays the right mode.
+  const path = typeof window === 'undefined' ? '/' : window.location.pathname
+  return `${origin}${path}?r=${r}`
 })
 </script>
 

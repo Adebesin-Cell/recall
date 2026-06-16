@@ -9,8 +9,9 @@ export interface Profile {
 
 const DEFAULT_PROFILE: Profile = { bestLevel: 0, bestScore: 0, totalRuns: 0, lastSeed: 0 }
 
-export function useAutosave() {
-  const profile = useStorage<Profile>('recall:profile', { ...DEFAULT_PROFILE })
+// Per-game profile so each mode keeps its own bests (key: recall:profile:<gameId>).
+export function useAutosave(gameId = 'recall') {
+  const profile = useStorage<Profile>(`recall:profile:${gameId}`, { ...DEFAULT_PROFILE })
 
   function recordRun(run: { levelReached: number, score: number, seed: number }) {
     profile.value = {
