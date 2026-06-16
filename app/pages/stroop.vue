@@ -79,6 +79,7 @@ function answer(match: boolean | null) {
         tagline="A color word, shown in some ink. Tap whether the ink matches the word — before the clock runs out."
         :best-level="profile.bestLevel"
         :best-score="profile.bestScore"
+        :challenge="incoming"
         @start="begin"
       />
       <StroopScreen
@@ -96,6 +97,7 @@ function answer(match: boolean | null) {
         :level="level"
         :streak="streak"
         :seed="seed"
+        :challenge="incoming"
         @again="begin"
       />
     </div>
@@ -107,6 +109,7 @@ function answer(match: boolean | null) {
           tagline="A color word, shown in some ink. Tap whether the ink matches the word — before the clock runs out."
           :best-level="0"
           :best-score="0"
+          :challenge="incoming"
         />
       </div>
     </template>

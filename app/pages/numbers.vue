@@ -95,6 +95,7 @@ watch(() => state.value?.phase, (phase) => {
         tagline="Memorize the number. Type it back before the timer drains. It only gets faster."
         :best-level="profile.bestLevel"
         :best-score="profile.bestScore"
+        :challenge="incoming"
         @start="begin"
       />
       <MemorizeScreen
@@ -127,6 +128,7 @@ watch(() => state.value?.phase, (phase) => {
         :streak="state.streak"
         :seed="state.seed"
         :won="state.phase === 'won'"
+        :challenge="challenge"
         @again="handleAgain"
       />
     </div>
@@ -138,6 +140,7 @@ watch(() => state.value?.phase, (phase) => {
           tagline="Memorize the number. Type it back before the timer drains. It only gets faster."
           :best-level="0"
           :best-score="0"
+          :challenge="incoming"
         />
       </div>
     </template>

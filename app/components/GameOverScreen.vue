@@ -2,7 +2,7 @@
 import GameShareDialog from '~/components/ShareDialog.vue'
 import { css } from '~~/styled-system/css'
 
-defineProps<{ score: number, level: number, streak: number, seed: number, won?: boolean }>()
+defineProps<{ score: number, level: number, streak: number, seed: number, won?: boolean, challenge?: { score: number } | null }>()
 defineEmits<{ again: [] }>()
 </script>
 
@@ -20,6 +20,9 @@ defineEmits<{ again: [] }>()
       </p>
       <p :class="css({ textStyle: 'label' })">
         REACHED LV {{ level }} · STREAK ×{{ streak }}
+      </p>
+      <p v-if="challenge" :class="css({ textStyle: 'label', color: 'accent', mt: '2' })">
+        {{ score > challenge.score ? `YOU BEAT ${challenge.score} ✓` : `FELL SHORT · TARGET ${challenge.score}` }}
       </p>
     </div>
     <div :class="css({ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4' })">
