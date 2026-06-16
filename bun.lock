@@ -8,6 +8,7 @@
         "@ark-ui/vue": "^5.36.2",
         "@vueuse/core": "^14.3.0",
         "@vueuse/nuxt": "^14.3.0",
+        "an-array-of-english-words": "^2.0.0",
         "lz-string": "^1.5.0",
         "nuxt": "^4.4.4",
         "nuxt-og-image": "^6.6.0",
@@ -1040,6 +1041,8 @@
     "acorn-walk": ["acorn-walk@8.3.5", "", { "dependencies": { "acorn": "^8.11.0" } }, "sha512-HEHNfbars9v4pgpW6SO1KSPkfoS0xVOM/9UzkJltjlsHZmJasxg8aXkuZa7SMf8vKGIBhpUsPluQSqhJFCqebw=="],
 
     "agent-base": ["agent-base@7.1.4", "", {}, "sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ=="],
+
+    "an-array-of-english-words": ["an-array-of-english-words@2.0.0", "", { "bin": { "words": "cli.js", "an-array-of-english-words": "cli.js" } }, "sha512-FXnNvZSOI27kkKXeLSquhaTGP7z198UOQ4txaYO9fCfrjCh+D5SV7G7XqzEH0229+pAi4cjBEZ4WIQYgjKtO7Q=="],
 
     "ansi-regex": ["ansi-regex@6.2.2", "", {}, "sha512-Bq3SmSpyFHaWjPk8If9yc6svM8c56dB5BAtW4Qbw5jHTwwXXcTLoRMkpDJp6VL0XzlWaCHTXrkFURMYmD0sLqg=="],
 

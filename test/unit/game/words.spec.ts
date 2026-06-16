@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { baseForLevel, BASES, canForm, isValidWord, lettersForLevel, wordScore, wordTimeMs } from '~/game/words'
 
+const DICT = new Set(['planet', 'plane', 'net', 'plan', 'pant'])
+
 describe('words', () => {
   it('baseForLevel is deterministic and from the base list', () => {
     expect(baseForLevel(42, 3)).toBe(baseForLevel(42, 3))
@@ -22,12 +24,12 @@ describe('words', () => {
 
   it('isValidWord requires dictionary + formable + length >= 3', () => {
     const letters = 'PLANET'.split('')
-    expect(isValidWord('planet', letters)).toBe(true) // the base word
-    expect(isValidWord('plane', letters)).toBe(true) // dictionary sub-word
-    expect(isValidWord('net', letters)).toBe(true)
-    expect(isValidWord('pl', letters)).toBe(false) // too short
-    expect(isValidWord('zzz', letters)).toBe(false) // not a word / not formable
-    expect(isValidWord('elephant', letters)).toBe(false) // not formable
+    expect(isValidWord('planet', letters, DICT)).toBe(true) // the base word
+    expect(isValidWord('plane', letters, DICT)).toBe(true) // dictionary sub-word
+    expect(isValidWord('net', letters, DICT)).toBe(true)
+    expect(isValidWord('pl', letters, DICT)).toBe(false) // too short
+    expect(isValidWord('zzz', letters, DICT)).toBe(false) // not in dictionary
+    expect(isValidWord('plant', letters, DICT)).toBe(false) // formable but not in dictionary
   })
 
   it('time shrinks with level but never below the floor', () => {

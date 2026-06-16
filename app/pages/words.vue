@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import FlashOverlay from '~/components/FlashOverlay.vue'
 import GameOverScreen from '~/components/GameOverScreen.vue'
 import MenuScreen from '~/components/MenuScreen.vue'
@@ -9,7 +9,7 @@ import { useAutosave } from '~/composables/useAutosave'
 import { useFlash } from '~/composables/useFlash'
 import { useName } from '~/composables/useName'
 import { useTimer } from '~/composables/useTimer'
-import { isValidWord, lettersForLevel, wordScore, wordTimeMs } from '~/game/words'
+import { isValidWord, lettersForLevel, loadDictionary, wordScore, wordTimeMs } from '~/game/words'
 import { decodeChallenge, encodeChallenge, type Entry, mergeEntry, sanitizeName, topScore } from '~/share/board'
 import { frame } from '~~/styled-system/patterns'
 
@@ -33,6 +33,12 @@ const streak = ref(0)
 const letters = ref<string[]>([])
 const finalBoard = ref<Entry[]>([])
 const myIndex = ref(0)
+const dict = ref<Set<string> | null>(null)
+
+// Pull the dictionary chunk once, client-side, when this game mounts.
+onMounted(async () => {
+  dict.value = await loadDictionary()
+})
 
 const incoming = decodeChallenge(typeof route.query.c === 'string' ? route.query.c : '')
 const incomingBoard = computed(() => incoming?.board ?? [])
@@ -72,7 +78,7 @@ function finishRun() {
 function submit(word: string) {
   if (phase.value !== 'playing') return
   timer.stop()
-  const correct = isValidWord(word, letters.value)
+  const correct = !!dict.value && isValidWord(word, letters.value, dict.value)
   trigger(correct ? 'correct' : 'wrong')
   if (!correct) {
     phase.value = 'gameover'

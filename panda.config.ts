@@ -90,16 +90,17 @@ const panel = defineSlotRecipe({
 // --- Pattern (definePattern) -----------------------------------------------
 
 const frame = definePattern({
-  description: 'Full-viewport, flex-centered screen wrapper',
+  description: 'Full-viewport, flex-centered screen wrapper (scrolls when content is tall)',
   properties: {},
   transform() {
     return {
       minHeight: '100dvh',
-      height: '100dvh',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '6',
+      paddingInline: '6',
+      paddingTop: '6rem', // clear the fixed TopBar
+      paddingBottom: '2rem',
     }
   },
 })
@@ -204,6 +205,7 @@ export default defineConfig({
       bg: 'bg',
       color: 'fg',
       fontFamily: 'display',
+      overflowX: 'hidden',
     },
   },
 })

@@ -7,9 +7,9 @@ defineProps<{ howToTitle: string, howTo: string[] }>()
 
 const { name } = useName()
 
-const cluster = css({ position: 'fixed', top: '0', right: '0', p: '5', display: 'flex', gap: '7', zIndex: '50' })
+const cluster = css({ position: 'fixed', top: '0', right: '0', p: { base: '4', sm: '5' }, display: 'flex', gap: { base: '5', sm: '7' }, zIndex: '50' })
 const iconBtn = css({ display: 'grid', justifyItems: 'center', gap: '1.5', bg: 'transparent', color: 'fg', cursor: 'pointer', opacity: 0.65, transition: 'all 120ms', _hover: { opacity: 1, color: 'accent' } })
-const iconLabel = css({ textStyle: 'label', fontSize: '0.625rem' })
+const iconLabel = css({ textStyle: 'label', fontSize: '0.625rem', display: { base: 'none', sm: 'block' } })
 const backdrop = css({ position: 'fixed', inset: 0, bg: 'rgba(0,0,0,0.72)' })
 const positioner = css({ position: 'fixed', inset: 0, display: 'grid', placeItems: 'center', p: '6', zIndex: '60' })
 const content = css({ bg: 'ink', color: 'paper', p: '8', maxW: 'md', w: 'full', display: 'grid', gap: '5', border: '1px solid token(colors.violet)', boxShadow: 'glowLg' })

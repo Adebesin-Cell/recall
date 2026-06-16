@@ -27,7 +27,7 @@ const howTo = [
           <p :class="css({ textStyle: 'label', color: 'accent' })">
             ACTIVE-RECALL ARCADE
           </p>
-          <h1 :class="css({ textStyle: 'display', fontSize: { base: '7xl', md: '9xl' }, color: 'fg' })">
+          <h1 :class="css({ textStyle: 'display', fontSize: 'clamp(3rem, 15vw, 9rem)', color: 'fg', overflowWrap: 'anywhere' })">
             RECALL
           </h1>
           <p :class="css({ textStyle: 'body', maxW: '30rem', opacity: 0.7, lineHeight: '1.5' })">

@@ -36,7 +36,7 @@ const myStanding = computed(() => {
       <p :class="css({ textStyle: 'label', color: 'accent' })">
         {{ label }}
       </p>
-      <h1 :class="css({ textStyle: 'display', fontSize: { base: '7xl', md: '9xl' }, color: 'fg' })">
+      <h1 :class="css({ textStyle: 'display', fontSize: 'clamp(2.75rem, 12vw, 7.5rem)', color: 'fg', overflowWrap: 'anywhere' })">
         {{ title }}
       </h1>
       <p :class="css({ textStyle: 'body', maxW: '26rem', opacity: 0.7, lineHeight: '1.5' })">
