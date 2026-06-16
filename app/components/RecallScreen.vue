@@ -7,7 +7,7 @@ defineEmits<{ submit: [value: string] }>()
 </script>
 
 <template>
-  <section :class="css({ minH: '100dvh', display: 'flex', flexDir: 'column', alignItems: 'center', justifyContent: 'center', gap: '8', p: '8' })">
+  <section :class="css({ w: 'full', maxW: '40rem', display: 'flex', flexDir: 'column', alignItems: 'center', gap: '8' })">
     <p :class="css({ textStyle: 'label', color: 'accent' })">
       RECALL · LV {{ level }}
     </p>

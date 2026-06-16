@@ -9,7 +9,7 @@ defineEmits<{ again: [] }>()
 <template>
   <section
     data-mode="safe"
-    :class="css({ minH: '100dvh', bg: 'bg', color: 'fg', display: 'flex', flexDir: 'column', justifyContent: 'space-between', p: '8' })"
+    :class="css({ w: 'full', maxW: '40rem', bg: 'bg', color: 'fg', display: 'grid', gap: '8', p: { base: '8', md: '10' } })"
   >
     <h1 :class="css({ textStyle: 'display', fontSize: { base: '6xl', md: '8xl' } })">
       {{ won ? 'PERFECT RUN' : 'GAME OVER' }}

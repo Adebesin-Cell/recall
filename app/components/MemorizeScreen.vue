@@ -8,8 +8,8 @@ defineEmits<{ ready: [] }>()
 </script>
 
 <template>
-  <section :class="css({ minH: '100dvh', display: 'flex', flexDir: 'column', alignItems: 'center', justifyContent: 'center', gap: '10', p: '8' })">
-    <p :class="css({ textStyle: 'label', color: 'accent', position: 'absolute', top: '8' })">
+  <section :class="css({ w: 'full', maxW: '40rem', display: 'flex', flexDir: 'column', alignItems: 'center', gap: '10' })">
+    <p :class="css({ textStyle: 'label', color: 'accent' })">
       MEMORIZE · LV {{ level }}
     </p>
     <TimerArc :fraction="fraction" />

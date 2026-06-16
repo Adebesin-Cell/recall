@@ -8,33 +8,40 @@ import ResultScreen from '~/components/ResultScreen.vue'
 import { useAutosave } from '~/composables/useAutosave'
 import { useTimer } from '~/composables/useTimer'
 import { beginRecall, type GameState, nextLevel, startGame, submit } from '~/game/engine'
-import { decodeRun } from '~/share/codec'
+import { decodeRun, encodeRun } from '~/share/codec'
 import { css } from '~~/styled-system/css'
 
-// Centered, max-width frame so the mobile-first screens read as an intentional
-// editorial column on desktop instead of stretching edge-to-edge.
-const frame = css({ position: 'relative', w: 'full', maxW: '40rem', mx: 'auto', minH: '100dvh' })
+const frame = css({ minH: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', p: '6' })
 
 const route = useRoute()
 const { profile, recordRun } = useAutosave()
 
 const state = ref<GameState | null>(null)
 
-// A shared run becomes the "challenge" to beat.
-const challenge = computed(() => {
-  const r = typeof route.query.r === 'string' ? decodeRun(route.query.r) : null
-  return r ? { score: r.score } : null
-})
+// Capture an incoming shared run ONCE — the challenge to beat and the seed to
+// replay. We then overwrite ?r= with the player's own live state as they play,
+// so this snapshot must be captured non-reactively (not from a computed).
+const incoming = decodeRun(typeof route.query.r === 'string' ? route.query.r : '')
+
+// The challenge banner compares against the original shared score.
+const challenge = computed(() => (incoming ? { score: incoming.score } : null))
 
 // Dynamic OG card when arriving via a shared ?r= run.
-const sharedRun = computed(() =>
-  typeof route.query.r === 'string' ? decodeRun(route.query.r) : null,
-)
-if (sharedRun.value) {
-  defineOgImageComponent('OgRun', {
-    score: sharedRun.value.score,
-    level: sharedRun.value.levelReached,
+if (incoming) {
+  defineOgImageComponent('OgRun', { score: incoming.score, level: incoming.levelReached })
+}
+
+// Mirror the live run into the URL (?r=) without a navigation, so a refresh or
+// copied link always reflects the player's current seed/level/score/streak.
+function syncUrl() {
+  if (!state.value || typeof window === 'undefined') return
+  const r = encodeRun({
+    seed: state.value.seed,
+    levelReached: state.value.level,
+    score: state.value.score,
+    streak: state.value.streak,
   })
+  window.history.replaceState(window.history.state, '', `?r=${r}`)
 }
 
 const memorizeTimer = useTimer(() => {
@@ -50,8 +57,7 @@ function newSeed(): number {
 
 function begin() {
   // Replay the challenger's exact sequence if one was shared, else a fresh seed.
-  const sharedSeed = typeof route.query.r === 'string' ? decodeRun(route.query.r)?.seed : undefined
-  state.value = startGame(sharedSeed ?? newSeed())
+  state.value = startGame(incoming?.seed ?? newSeed())
 }
 
 function handleReady() {
@@ -83,12 +89,13 @@ watch(() => state.value?.phase, (phase) => {
   if (phase === 'gameover' || phase === 'won') {
     recordRun({ levelReached: state.value.level, score: state.value.score, seed: state.value.seed })
   }
+  syncUrl() // keep ?r= in sync with the live run on every phase change
 })
 </script>
 
 <template>
   <ClientOnly>
-    <div :class="frame">
+    <div :class="frame" :style="{ height: '100dvh' }">
       <MenuScreen
         v-if="!state || state.phase === 'idle'"
         :best-level="profile.bestLevel"
