@@ -1,5 +1,9 @@
-import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string'
+import lzString from 'lz-string'
 import { z } from 'zod'
+
+// Default import (not named) — lz-string is CJS and named ESM imports break in
+// the Nitro/Vercel server bundle.
+const { compressToEncodedURIComponent, decompressFromEncodedURIComponent } = lzString
 
 // One leaderboard row. `p` = number of times this player has played.
 export const Entry = z.object({

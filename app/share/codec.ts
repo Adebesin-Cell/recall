@@ -1,5 +1,9 @@
-import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string'
+import lzString from 'lz-string'
 import { Run } from '~/game/types'
+
+// Default import (not named) — lz-string is CJS and named ESM imports break in
+// the Nitro/Vercel server bundle.
+const { compressToEncodedURIComponent, decompressFromEncodedURIComponent } = lzString
 
 const VERSION = 1
 
