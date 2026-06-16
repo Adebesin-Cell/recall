@@ -21,7 +21,7 @@ const howTo = [
 <template>
   <div>
     <TopBar how-to-title="HOW IT WORKS" :how-to="howTo" />
-    <div :class="frame()">
+    <div :class="frame()" style="height: 100dvh">
       <section :class="css({ w: 'full', maxW: '46rem', display: 'grid', gap: '10' })">
         <div :class="css({ display: 'grid', gap: '3' })">
           <p :class="css({ textStyle: 'label', color: 'accent' })">

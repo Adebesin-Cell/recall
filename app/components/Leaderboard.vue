@@ -2,9 +2,13 @@
 import type { Entry } from '~/share/board'
 import { css } from '~~/styled-system/css'
 
-defineProps<{ entries: Entry[], myIndex?: number }>()
+const props = defineProps<{ entries: Entry[], myIndex?: number, myName?: string }>()
 
-const row = css({ display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: '3', alignItems: 'baseline', py: '2', borderBottom: '1px solid token(colors.fg)', borderColor: 'rgba(128,128,128,0.25)' })
+function isMine(entry: Entry, i: number): boolean {
+  return i === props.myIndex || (!!props.myName && entry.n === props.myName)
+}
+
+const row = css({ display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: '3', alignItems: 'baseline', py: '2', borderBottom: '1px solid', borderColor: 'rgba(128,128,128,0.25)' })
 </script>
 
 <template>
@@ -16,10 +20,12 @@ const row = css({ display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: '3
       v-for="(entry, i) in entries"
       :key="i"
       :class="row"
-      :style="i === myIndex ? 'color: var(--colors-accent)' : ''"
+      :style="isMine(entry, i) ? 'color: var(--colors-accent)' : ''"
     >
       <span :class="css({ textStyle: 'timer', fontSize: 'sm', opacity: 0.7 })">{{ i + 1 }}</span>
-      <span :class="css({ textStyle: 'label' })">{{ entry.n }}{{ i === myIndex ? ' · YOU' : '' }}</span>
+      <span :class="css({ textStyle: 'label' })">
+        {{ entry.n }}<span v-if="isMine(entry, i)"> · YOU</span><span v-if="entry.p > 1" :class="css({ opacity: 0.5 })"> · {{ entry.p }}×</span>
+      </span>
       <span :class="css({ textStyle: 'timer', fontSize: 'md' })">{{ entry.s }}</span>
     </div>
   </div>

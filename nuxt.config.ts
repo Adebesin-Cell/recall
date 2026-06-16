@@ -29,4 +29,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/': { isr: 60 },
   },
+  ogImage: {
+    defaults: { renderer: 'takumi' },
+  },
 })

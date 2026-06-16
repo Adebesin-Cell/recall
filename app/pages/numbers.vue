@@ -10,7 +10,7 @@ import { useAutosave } from '~/composables/useAutosave'
 import { useName } from '~/composables/useName'
 import { useTimer } from '~/composables/useTimer'
 import { beginRecall, type GameState, nextLevel, startGame, submit } from '~/game/engine'
-import { addEntry, decodeChallenge, encodeChallenge, type Entry, sanitizeName, topScore } from '~/share/board'
+import { decodeChallenge, encodeChallenge, type Entry, mergeEntry, sanitizeName, topScore } from '~/share/board'
 import { frame } from '~~/styled-system/patterns'
 
 const howTo = [
@@ -30,9 +30,10 @@ const myIndex = ref(0)
 // Incoming shared leaderboard challenge (seed + board). Captured once.
 const incoming = decodeChallenge(typeof route.query.c === 'string' ? route.query.c : '')
 const incomingBoard = computed(() => incoming?.board ?? [])
+const myName = computed(() => sanitizeName(name.value))
 
 if (incoming) {
-  defineOgImageComponent('OgRun', { score: topScore(incoming.board), level: incoming.board[0]?.l ?? 0 })
+  defineOgImageComponent('Run', { score: topScore(incoming.board), level: incoming.board[0]?.l ?? 0 })
 }
 
 const memorizeTimer = useTimer(() => {
@@ -75,10 +76,9 @@ function handleAgain() {
 function finishRun() {
   if (!state.value) return
   recordRun({ levelReached: state.value.level, score: state.value.score, seed: state.value.seed })
-  const entry: Entry = { n: sanitizeName(name.value), s: state.value.score, l: state.value.level }
-  const board = addEntry(incoming?.board ?? [], entry)
+  const board = mergeEntry(incoming?.board ?? [], { n: myName.value, s: state.value.score, l: state.value.level })
   finalBoard.value = board
-  myIndex.value = board.indexOf(entry)
+  myIndex.value = board.findIndex(e => e.n === myName.value)
   if (typeof window !== 'undefined') {
     const c = encodeChallenge({ seed: state.value.seed, board })
     window.history.replaceState(window.history.state, '', `?c=${c}`)
@@ -97,7 +97,7 @@ watch(() => state.value?.phase, (phase) => {
   <div>
     <TopBar how-to-title="HOW TO PLAY · NUMBERS" :how-to="howTo" />
     <ClientOnly>
-      <div :class="frame()">
+      <div :class="frame()" style="height: 100dvh">
         <MenuScreen
           v-if="!state || state.phase === 'idle'"
           title="NUMBERS"
@@ -106,6 +106,7 @@ watch(() => state.value?.phase, (phase) => {
         :best-level="profile.bestLevel"
         :best-score="profile.bestScore"
         :board="incomingBoard"
+        :my-name="myName"
         @start="begin"
       />
       <MemorizeScreen
@@ -151,6 +152,7 @@ watch(() => state.value?.phase, (phase) => {
           :best-level="0"
           :best-score="0"
           :board="incomingBoard"
+          :my-name="myName"
         />
         </div>
       </template>

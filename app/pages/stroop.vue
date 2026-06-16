@@ -8,7 +8,7 @@ import { useAutosave } from '~/composables/useAutosave'
 import { useName } from '~/composables/useName'
 import { useTimer } from '~/composables/useTimer'
 import { roundForLevel, type StroopRound, stroopScore, stroopTimeMs } from '~/game/stroop'
-import { addEntry, decodeChallenge, encodeChallenge, type Entry, sanitizeName, topScore } from '~/share/board'
+import { decodeChallenge, encodeChallenge, type Entry, mergeEntry, sanitizeName, topScore } from '~/share/board'
 import { frame } from '~~/styled-system/patterns'
 
 const howTo = [
@@ -33,9 +33,10 @@ const myIndex = ref(0)
 
 const incoming = decodeChallenge(typeof route.query.c === 'string' ? route.query.c : '')
 const incomingBoard = computed(() => incoming?.board ?? [])
+const myName = computed(() => sanitizeName(name.value))
 
 if (incoming) {
-  defineOgImageComponent('OgRun', { score: topScore(incoming.board), level: incoming.board[0]?.l ?? 0 })
+  defineOgImageComponent('Run', { score: topScore(incoming.board), level: incoming.board[0]?.l ?? 0 })
 }
 
 const timer = useTimer(() => answer(null)) // timeout = miss
@@ -56,10 +57,9 @@ function begin() {
 
 function finishRun() {
   recordRun({ levelReached: level.value, score: score.value, seed: seed.value })
-  const entry: Entry = { n: sanitizeName(name.value), s: score.value, l: level.value }
-  const board = addEntry(incoming?.board ?? [], entry)
+  const board = mergeEntry(incoming?.board ?? [], { n: myName.value, s: score.value, l: level.value })
   finalBoard.value = board
-  myIndex.value = board.indexOf(entry)
+  myIndex.value = board.findIndex(e => e.n === myName.value)
   if (typeof window !== 'undefined') {
     const c = encodeChallenge({ seed: seed.value, board })
     window.history.replaceState(window.history.state, '', `?c=${c}`)
@@ -87,7 +87,7 @@ function answer(match: boolean | null) {
   <div>
     <TopBar how-to-title="HOW TO PLAY · STROOP" :how-to="howTo" />
     <ClientOnly>
-      <div :class="frame()">
+      <div :class="frame()" style="height: 100dvh">
         <MenuScreen
           v-if="phase === 'idle'"
           title="STROOP"
@@ -96,6 +96,7 @@ function answer(match: boolean | null) {
         :best-level="profile.bestLevel"
         :best-score="profile.bestScore"
         :board="incomingBoard"
+        :my-name="myName"
         @start="begin"
       />
       <StroopScreen
@@ -127,6 +128,7 @@ function answer(match: boolean | null) {
           :best-level="0"
           :best-score="0"
           :board="incomingBoard"
+          :my-name="myName"
         />
         </div>
       </template>

@@ -12,10 +12,16 @@ const props = defineProps<{
   bestLevel: number
   bestScore: number
   board?: Entry[] | null
+  myName?: string
 }>()
 defineEmits<{ start: [] }>()
 
 const hasBoard = computed(() => !!props.board && props.board.length > 0)
+const myStanding = computed(() => {
+  if (!props.board || !props.myName) return null
+  const i = props.board.findIndex(e => e.n === props.myName)
+  return i < 0 ? null : { rank: i + 1, entry: props.board[i]! }
+})
 </script>
 
 <template>
@@ -45,8 +51,11 @@ const hasBoard = computed(() => !!props.board && props.board.length > 0)
       <p :class="css({ textStyle: 'label', color: 'accent' })">
         ⚡ BEAT THE BOARD · TOP {{ topScore(board) }} PTS
       </p>
-      <Leaderboard :entries="board.slice(0, 5)" />
-      <p :class="css({ textStyle: 'label', opacity: 0.6 })">
+      <Leaderboard :entries="board.slice(0, 5)" :my-name="myName" />
+      <p v-if="myStanding" :class="css({ textStyle: 'label' })">
+        YOU'RE #{{ myStanding.rank }} · {{ myStanding.entry.s }} PTS · PLAYED {{ myStanding.entry.p }}×
+      </p>
+      <p v-else :class="css({ textStyle: 'label', opacity: 0.6 })">
         SAME SEQUENCE FOR EVERYONE — YOUR TURN
       </p>
     </div>
