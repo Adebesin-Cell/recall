@@ -21,6 +21,11 @@ const howTo = [
   'Each level adds digits and shaves time. One miss ends the run.',
 ]
 
+useSeoMeta({
+  title: 'Numbers — Number Memory Game',
+  description: 'Memorize a number, then type it back before the timer drains. A fast digit-span memory game that adds digits and shrinks the clock every level. Free, no sign-up.',
+})
+
 const route = useRoute()
 const { profile, recordRun } = useAutosave('numbers')
 const { name } = useName()

@@ -16,6 +16,11 @@ const howTo = [
   'Every level gets faster and harder. Survive as long as you can.',
   'Set a name in Settings, then share your link — friends play the exact same run and join your leaderboard.',
 ]
+
+useSeoMeta({
+  title: 'Brain Games for Memory, Focus & Reaction',
+  description: 'A free arcade of quick brain games — number recall, the Stroop test, mental-math sprints and word anagrams. Train your memory and focus, beat the clock, and challenge friends with a shareable link. No sign-up.',
+})
 </script>
 
 <template>

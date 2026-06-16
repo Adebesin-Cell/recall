@@ -19,6 +19,11 @@ const howTo = [
   'Longer words score more. Time shrinks each level; a wrong word or timeout ends it.',
 ]
 
+useSeoMeta({
+  title: 'Word Form — Anagram Word Game',
+  description: 'Unscramble the letters into any real word before time runs out — longer words score more. A fast vocabulary and anagram game. Free, no sign-up.',
+})
+
 const route = useRoute()
 const { profile, recordRun } = useAutosave('words')
 const { name } = useName()

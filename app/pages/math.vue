@@ -19,6 +19,11 @@ const howTo = [
   'Numbers grow and time shrinks each level. A wrong answer (or timeout) ends it.',
 ]
 
+useSeoMeta({
+  title: 'Math Sprint — Mental Math Drills',
+  description: 'Solve multiplication against the clock. A mental-math speed drill where the numbers grow and the timer shrinks every level. Sharpen arithmetic and focus. Free, no sign-up.',
+})
+
 const route = useRoute()
 const { profile, recordRun } = useAutosave('math')
 const { name } = useName()

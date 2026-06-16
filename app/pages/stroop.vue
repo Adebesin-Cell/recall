@@ -19,6 +19,11 @@ const howTo = [
   'It speeds up each round. One wrong tap (or timeout) ends it.',
 ]
 
+useSeoMeta({
+  title: 'Stroop Test — Color & Word Reaction Game',
+  description: 'The classic Stroop test as a fast reaction game: decide whether the ink color matches the word before the clock runs out. Train focus and processing speed. Free, no sign-up.',
+})
+
 const route = useRoute()
 const { profile, recordRun } = useAutosave('stroop')
 const { name } = useName()

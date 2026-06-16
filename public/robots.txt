@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://playrecuerdo.vercel.app/sitemap.xml
