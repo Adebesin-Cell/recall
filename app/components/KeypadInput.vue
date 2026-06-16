@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { css } from '~~/styled-system/css'
+import { keyCap } from '~~/styled-system/recipes'
 
 const emit = defineEmits<{ submit: [value: string] }>()
 const entry = ref('')
@@ -12,18 +13,7 @@ function press(key: string) {
   else entry.value += key
 }
 
-const keyClass = css({
-  textStyle: 'display',
-  fontSize: '3xl',
-  py: '4',
-  bg: 'transparent',
-  color: 'fg',
-  border: '1px solid token(colors.fg)',
-  borderRadius: 'none',
-  cursor: 'pointer',
-  transition: 'all 120ms',
-  _active: { bg: 'accent', borderColor: 'accent', boxShadow: 'glowSm' },
-})
+const keyClass = keyCap()
 </script>
 
 <template>

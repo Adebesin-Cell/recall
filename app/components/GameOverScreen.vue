@@ -3,6 +3,7 @@ import type { Entry } from '~/share/board'
 import GameShareDialog from '~/components/ShareDialog.vue'
 import Leaderboard from '~/components/Leaderboard.vue'
 import { css } from '~~/styled-system/css'
+import { button, panel } from '~~/styled-system/recipes'
 
 defineProps<{
   score: number
@@ -14,21 +15,20 @@ defineProps<{
   won?: boolean
 }>()
 defineEmits<{ again: [] }>()
+
+const cls = panel()
 </script>
 
 <template>
-  <section
-    data-mode="safe"
-    :class="css({ w: 'full', maxW: '40rem', bg: 'bg', color: 'fg', display: 'grid', gap: '7', p: { base: '8', md: '10' } })"
-  >
+  <section data-mode="safe" :class="[cls.root, css({ bg: 'bg', color: 'fg' })]">
     <div>
-      <h1 :class="css({ textStyle: 'display', fontSize: { base: '6xl', md: '8xl' } })">
+      <h1 :class="cls.heading">
         {{ won ? 'PERFECT RUN' : 'GAME OVER' }}
       </h1>
-      <p :class="css({ textStyle: 'label', mt: '2' })">
+      <p :class="[cls.meta, css({ mt: '2' })]">
         {{ score }} PTS · REACHED LV {{ level }} · STREAK ×{{ streak }}
       </p>
-      <p :class="css({ textStyle: 'label', color: 'accent', mt: '1' })">
+      <p :class="[cls.meta, css({ color: 'accent', mt: '1' })]">
         {{ myIndex === 0 ? '🏆 NEW TOP OF THE BOARD' : `RANKED #${myIndex + 1} OF ${board.length}` }}
       </p>
     </div>
@@ -37,11 +37,7 @@ defineEmits<{ again: [] }>()
 
     <div :class="css({ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4' })">
       <GameShareDialog :seed="seed" :board="board" />
-      <button
-        type="button"
-        :class="css({ textStyle: 'display', fontSize: 'xl', bg: 'fg', color: 'bg', py: '3', cursor: 'pointer' })"
-        @click="$emit('again')"
-      >
+      <button type="button" :class="button({ visual: 'invert' })" @click="$emit('again')">
         PLAY AGAIN
       </button>
     </div>

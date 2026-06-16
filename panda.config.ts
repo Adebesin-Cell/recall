@@ -1,9 +1,110 @@
-import { defineConfig } from '@pandacss/dev'
+import { defineConfig, definePattern, defineRecipe, defineSlotRecipe } from '@pandacss/dev'
+
+const button = defineRecipe({
+  className: 'btn',
+  description: 'Brutalist action button',
+  base: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontFamily: 'display',
+    fontWeight: '900',
+    textTransform: 'uppercase',
+    letterSpacing: '-0.01em',
+    borderRadius: 'none',
+    cursor: 'pointer',
+    transition: 'transform 120ms, box-shadow 120ms, background 120ms',
+  },
+  variants: {
+    visual: {
+      solid: { bg: 'accent', color: 'paper', boxShadow: 'glowLg', _hover: { transform: 'translateY(-2px)' } },
+      invert: { bg: 'fg', color: 'bg' },
+      outline: { bg: 'transparent', color: 'fg', borderWidth: '1px', borderStyle: 'solid', borderColor: 'fg' },
+      ghost: { bg: 'transparent', color: 'fg', opacity: 0.7, _hover: { opacity: 1, color: 'accent' } },
+    },
+    size: {
+      sm: { fontSize: 'sm', letterSpacing: '0.12em', px: '6', py: '3' },
+      md: { fontSize: 'xl', px: '6', py: '4' },
+      lg: { fontSize: '2xl', px: '8', py: '5' },
+    },
+  },
+  defaultVariants: { visual: 'solid', size: 'md' },
+})
+
+const gameTile = defineRecipe({
+  className: 'tile',
+  description: 'Game-select tile',
+  base: {
+    display: 'grid',
+    gap: '2',
+    p: '6',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: 'fg',
+    borderRadius: 'none',
+    transition: 'all 140ms',
+    textAlign: 'left',
+  },
+  variants: {
+    state: {
+      ready: { cursor: 'pointer', _hover: { borderColor: 'accent', boxShadow: 'glowSm', transform: 'translateY(-2px)' } },
+      soon: { opacity: 0.4 },
+    },
+  },
+  defaultVariants: { state: 'ready' },
+})
+
+const keyCap = defineRecipe({
+  className: 'keycap',
+  description: 'On-screen keypad key',
+  base: {
+    fontFamily: 'display',
+    fontWeight: '900',
+    fontSize: '3xl',
+    py: '4',
+    bg: 'transparent',
+    color: 'fg',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: 'fg',
+    borderRadius: 'none',
+    cursor: 'pointer',
+    transition: 'all 120ms',
+    _active: { bg: 'accent', borderColor: 'accent', boxShadow: 'glowSm' },
+  },
+})
+
+// --- Slot recipe (defineSlotRecipe) ----------------------------------------
+
+const panel = defineSlotRecipe({
+  className: 'panel',
+  description: 'Result / game-over card',
+  slots: ['root', 'heading', 'meta'],
+  base: {
+    root: { w: 'full', maxW: '40rem', display: 'grid', gap: '7', p: { base: '8', md: '10' } },
+    heading: { textStyle: 'display', fontSize: { base: '6xl', md: '8xl' } },
+    meta: { textStyle: 'label' },
+  },
+})
+
+// --- Pattern (definePattern) -----------------------------------------------
+
+const frame = definePattern({
+  description: 'Full-viewport, flex-centered screen wrapper',
+  properties: {},
+  transform() {
+    return {
+      minHeight: '100dvh',
+      height: '100dvh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '6',
+    }
+  },
+})
 
 export default defineConfig({
-  // v2 beta: defineConfig does NOT auto-include base presets — without these,
-  // there are no utilities (bg/color/p), no token scales (6xl, spacing), and no
-  // _hover/_active conditions. See design-notes/v2-beta-dogfooding.md.
   presets: ['@pandacss/preset-base', '@pandacss/preset-panda'],
   preflight: true,
   jsxFramework: 'vue',
@@ -12,12 +113,16 @@ export default defineConfig({
   outdir: 'styled-system',
   conditions: {
     extend: {
-      // Palette inversion: any subtree marked data-mode="safe" flips fg/bg.
       safe: '[data-mode=safe] &',
     },
   },
+  patterns: {
+    extend: { frame },
+  },
   theme: {
     extend: {
+      recipes: { button, gameTile, keyCap },
+      slotRecipes: { panel },
       tokens: {
         colors: {
           ink: { value: '#0A0A0A' },

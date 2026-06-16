@@ -2,6 +2,7 @@
 import BigNumber from '~/components/BigNumber.vue'
 import TimerArc from '~/components/TimerArc.vue'
 import { css } from '~~/styled-system/css'
+import { button } from '~~/styled-system/recipes'
 
 defineProps<{ value: string, level: number, fraction: number }>()
 defineEmits<{ ready: [] }>()
@@ -16,7 +17,7 @@ defineEmits<{ ready: [] }>()
     <BigNumber :value="value" glow />
     <button
       type="button"
-      :class="css({ textStyle: 'label', border: '1px solid token(colors.fg)', px: '6', py: '3', bg: 'transparent', color: 'fg', cursor: 'pointer' })"
+      :class="button({ visual: 'outline', size: 'sm' })"
       @click="$emit('ready')"
     >
       I'VE GOT IT

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { css } from '~~/styled-system/css'
+import { button } from '~~/styled-system/recipes'
 
 defineProps<{
   score: number
@@ -42,7 +43,7 @@ defineEmits<{ next: [] }>()
 
     <button
       type="button"
-      :class="css({ textStyle: 'display', fontSize: 'xl', bg: 'fg', color: 'bg', py: '4', cursor: 'pointer' })"
+      :class="[button({ visual: 'invert' }), css({ w: 'full' })]"
       @click="$emit('next')"
     >
       NEXT LEVEL

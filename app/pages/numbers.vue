@@ -5,14 +5,19 @@ import MemorizeScreen from '~/components/MemorizeScreen.vue'
 import MenuScreen from '~/components/MenuScreen.vue'
 import RecallScreen from '~/components/RecallScreen.vue'
 import ResultScreen from '~/components/ResultScreen.vue'
+import TopBar from '~/components/TopBar.vue'
 import { useAutosave } from '~/composables/useAutosave'
 import { useName } from '~/composables/useName'
 import { useTimer } from '~/composables/useTimer'
 import { beginRecall, type GameState, nextLevel, startGame, submit } from '~/game/engine'
 import { addEntry, decodeChallenge, encodeChallenge, type Entry, sanitizeName, topScore } from '~/share/board'
-import { css } from '~~/styled-system/css'
+import { frame } from '~~/styled-system/patterns'
 
-const frame = css({ minH: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', p: '6' })
+const howTo = [
+  'A number flashes — memorize it before the ring drains.',
+  'Type it back on the keypad before the bar empties.',
+  'Each level adds digits and shaves time. One miss ends the run.',
+]
 
 const route = useRoute()
 const { profile, recordRun } = useAutosave('numbers')
@@ -89,11 +94,13 @@ watch(() => state.value?.phase, (phase) => {
 </script>
 
 <template>
-  <ClientOnly>
-    <div :class="frame" :style="{ height: '100dvh' }">
-      <MenuScreen
-        v-if="!state || state.phase === 'idle'"
-        title="NUMBERS"
+  <div>
+    <TopBar how-to-title="HOW TO PLAY · NUMBERS" :how-to="howTo" />
+    <ClientOnly>
+      <div :class="frame()">
+        <MenuScreen
+          v-if="!state || state.phase === 'idle'"
+          title="NUMBERS"
         label="ACTIVE RECALL"
         tagline="Memorize the number. Type it back before the timer drains. It only gets faster."
         :best-level="profile.bestLevel"
@@ -134,18 +141,19 @@ watch(() => state.value?.phase, (phase) => {
         :won="state.phase === 'won'"
         @again="handleAgain"
       />
-    </div>
-    <template #fallback>
-      <div :class="frame">
-        <MenuScreen
-          title="NUMBERS"
+      </div>
+      <template #fallback>
+        <div :class="frame()">
+          <MenuScreen
+            title="NUMBERS"
           label="ACTIVE RECALL"
           tagline="Memorize the number. Type it back before the timer drains. It only gets faster."
           :best-level="0"
           :best-score="0"
           :board="incomingBoard"
         />
-      </div>
-    </template>
-  </ClientOnly>
+        </div>
+      </template>
+    </ClientOnly>
+  </div>
 </template>

@@ -5,6 +5,7 @@ import { computed } from 'vue'
 import type { Entry } from '~/share/board'
 import { encodeChallenge } from '~/share/board'
 import { css } from '~~/styled-system/css'
+import { button } from '~~/styled-system/recipes'
 
 const props = defineProps<{ seed: number, board: Entry[] }>()
 const { copy, copied } = useClipboard()
@@ -19,9 +20,7 @@ const shareUrl = computed(() => {
 
 <template>
   <Dialog.Root>
-    <Dialog.Trigger
-      :class="css({ textStyle: 'display', fontSize: 'xl', border: '1px solid currentColor', px: '6', py: '3', bg: 'transparent', color: 'fg', cursor: 'pointer' })"
-    >
+    <Dialog.Trigger :class="[button({ visual: 'outline' }), css({ w: 'full' })]">
       SHARE
     </Dialog.Trigger>
     <Dialog.Backdrop :class="css({ position: 'fixed', inset: 0, bg: 'rgba(0,0,0,0.7)' })" />
@@ -39,7 +38,7 @@ const shareUrl = computed(() => {
         </p>
         <button
           type="button"
-          :class="css({ textStyle: 'label', bg: 'accent', color: 'paper', py: '4', cursor: 'pointer' })"
+          :class="[button({ visual: 'solid' }), css({ w: 'full' })]"
           @click="copy(shareUrl)"
         >
           {{ copied ? 'COPIED ✓' : 'COPY LINK' }}

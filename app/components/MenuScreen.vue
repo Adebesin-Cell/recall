@@ -3,6 +3,7 @@ import type { Entry } from '~/share/board'
 import Leaderboard from '~/components/Leaderboard.vue'
 import { topScore } from '~/share/board'
 import { css } from '~~/styled-system/css'
+import { button } from '~~/styled-system/recipes'
 
 const props = defineProps<{
   title: string
@@ -56,7 +57,7 @@ const hasBoard = computed(() => !!props.board && props.board.length > 0)
       </p>
       <button
         type="button"
-        :class="css({ textStyle: 'display', fontSize: '2xl', bg: 'accent', color: 'paper', py: '5', borderRadius: 'none', cursor: 'pointer', boxShadow: 'glowLg', transition: 'transform 120ms', _hover: { transform: 'translateY(-2px)' } })"
+        :class="[button({ visual: 'solid', size: 'lg' }), css({ w: 'full' })]"
         @click="$emit('start')"
       >
         {{ hasBoard ? 'PLAY THIS ROUND' : 'START' }}

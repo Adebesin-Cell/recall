@@ -3,14 +3,19 @@ import { computed, ref } from 'vue'
 import GameOverScreen from '~/components/GameOverScreen.vue'
 import MenuScreen from '~/components/MenuScreen.vue'
 import StroopScreen from '~/components/StroopScreen.vue'
+import TopBar from '~/components/TopBar.vue'
 import { useAutosave } from '~/composables/useAutosave'
 import { useName } from '~/composables/useName'
 import { useTimer } from '~/composables/useTimer'
 import { roundForLevel, type StroopRound, stroopScore, stroopTimeMs } from '~/game/stroop'
 import { addEntry, decodeChallenge, encodeChallenge, type Entry, sanitizeName, topScore } from '~/share/board'
-import { css } from '~~/styled-system/css'
+import { frame } from '~~/styled-system/patterns'
 
-const frame = css({ minH: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', p: '6' })
+const howTo = [
+  'A color word appears, painted in some ink color.',
+  'Tap MATCH if the ink matches the word — NO MATCH if it doesn’t.',
+  'It speeds up each round. One wrong tap (or timeout) ends it.',
+]
 
 const route = useRoute()
 const { profile, recordRun } = useAutosave('stroop')
@@ -79,11 +84,13 @@ function answer(match: boolean | null) {
 </script>
 
 <template>
-  <ClientOnly>
-    <div :class="frame" :style="{ height: '100dvh' }">
-      <MenuScreen
-        v-if="phase === 'idle'"
-        title="STROOP"
+  <div>
+    <TopBar how-to-title="HOW TO PLAY · STROOP" :how-to="howTo" />
+    <ClientOnly>
+      <div :class="frame()">
+        <MenuScreen
+          v-if="phase === 'idle'"
+          title="STROOP"
         label="REACTION"
         tagline="A color word, shown in some ink. Tap whether the ink matches the word — before the clock runs out."
         :best-level="profile.bestLevel"
@@ -110,18 +117,19 @@ function answer(match: boolean | null) {
         :my-index="myIndex"
         @again="begin"
       />
-    </div>
-    <template #fallback>
-      <div :class="frame">
-        <MenuScreen
-          title="STROOP"
+      </div>
+      <template #fallback>
+        <div :class="frame()">
+          <MenuScreen
+            title="STROOP"
           label="REACTION"
           tagline="A color word, shown in some ink. Tap whether the ink matches the word — before the clock runs out."
           :best-level="0"
           :best-score="0"
           :board="incomingBoard"
         />
-      </div>
-    </template>
-  </ClientOnly>
+        </div>
+      </template>
+    </ClientOnly>
+  </div>
 </template>

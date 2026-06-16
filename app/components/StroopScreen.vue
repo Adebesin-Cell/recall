@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { css } from '~~/styled-system/css'
+import { button } from '~~/styled-system/recipes'
 
 defineProps<{ word: string, inkHex: string, level: number, score: number, fraction: number }>()
 defineEmits<{ answer: [match: boolean] }>()
@@ -34,14 +35,14 @@ defineEmits<{ answer: [match: boolean] }>()
     <div :class="css({ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4', w: 'full', maxW: 'sm' })">
       <button
         type="button"
-        :class="css({ textStyle: 'display', fontSize: 'xl', py: '5', bg: 'accent', color: 'paper', cursor: 'pointer', boxShadow: 'glowSm', _active: { transform: 'translateY(1px)' } })"
+        :class="[button({ visual: 'solid' }), css({ w: 'full' })]"
         @click="$emit('answer', true)"
       >
         MATCH
       </button>
       <button
         type="button"
-        :class="css({ textStyle: 'display', fontSize: 'xl', py: '5', bg: 'transparent', color: 'fg', border: '1px solid token(colors.fg)', cursor: 'pointer', _active: { transform: 'translateY(1px)' } })"
+        :class="[button({ visual: 'outline' }), css({ w: 'full' })]"
         @click="$emit('answer', false)"
       >
         NO MATCH
