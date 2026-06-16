@@ -1,15 +1,20 @@
 <script setup lang="ts">
+import type { Entry } from '~/share/board'
+import Leaderboard from '~/components/Leaderboard.vue'
+import { topScore } from '~/share/board'
 import { css } from '~~/styled-system/css'
 
-defineProps<{
+const props = defineProps<{
   title: string
   tagline: string
   label: string
   bestLevel: number
   bestScore: number
-  challenge?: { score: number, levelReached: number } | null
+  board?: Entry[] | null
 }>()
 defineEmits<{ start: [] }>()
+
+const hasBoard = computed(() => !!props.board && props.board.length > 0)
 </script>
 
 <template>
@@ -33,17 +38,15 @@ defineEmits<{ start: [] }>()
     </div>
 
     <div
-      v-if="challenge"
-      :class="css({ border: '1px solid token(colors.accent)', borderRadius: 'none', p: '5', display: 'grid', gap: '1', boxShadow: 'glowSm' })"
+      v-if="hasBoard && board"
+      :class="css({ border: '1px solid token(colors.accent)', borderRadius: 'none', p: '5', display: 'grid', gap: '3', boxShadow: 'glowSm' })"
     >
       <p :class="css({ textStyle: 'label', color: 'accent' })">
-        ⚡ YOU'VE BEEN CHALLENGED
+        ⚡ BEAT THE BOARD · TOP {{ topScore(board) }} PTS
       </p>
-      <p :class="css({ textStyle: 'display', fontSize: '3xl', color: 'fg' })">
-        BEAT {{ challenge.score }} PTS
-      </p>
+      <Leaderboard :entries="board.slice(0, 5)" />
       <p :class="css({ textStyle: 'label', opacity: 0.6 })">
-        THEY REACHED LV {{ challenge.levelReached }} · SAME SEQUENCE, YOUR TURN
+        SAME SEQUENCE FOR EVERYONE — YOUR TURN
       </p>
     </div>
 
@@ -56,7 +59,7 @@ defineEmits<{ start: [] }>()
         :class="css({ textStyle: 'display', fontSize: '2xl', bg: 'accent', color: 'paper', py: '5', borderRadius: 'none', cursor: 'pointer', boxShadow: 'glowLg', transition: 'transform 120ms', _hover: { transform: 'translateY(-2px)' } })"
         @click="$emit('start')"
       >
-        {{ challenge ? 'ACCEPT CHALLENGE' : 'START' }}
+        {{ hasBoard ? 'PLAY THIS ROUND' : 'START' }}
       </button>
     </div>
   </section>

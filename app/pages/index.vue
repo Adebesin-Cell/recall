@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import GameTile from '~/components/GameTile.vue'
+import { useName } from '~/composables/useName'
 import { css } from '~~/styled-system/css'
+
+const { name } = useName()
 
 const frame = css({ minH: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', p: '6' })
 
@@ -26,9 +29,22 @@ const games = [
           Fast little games to sharpen your memory, focus, and reaction. Pick a mode, race the
           clock, and climb the levels — each run gets harder as you go.
         </p>
-        <p :class="css({ textStyle: 'label', opacity: 0.55, mt: '1' })">
-          PICK A GAME TO PLAY
-        </p>
+        <ClientOnly>
+          <label :class="css({ display: 'grid', gap: '2', mt: '1', maxW: '20rem' })">
+            <span :class="css({ textStyle: 'label', opacity: 0.55 })">YOUR NAME (OPTIONAL)</span>
+            <input
+              v-model="name"
+              maxlength="12"
+              placeholder="ANON"
+              :class="css({ textStyle: 'label', fontSize: 'md', bg: 'transparent', color: 'fg', border: '1px solid token(colors.fg)', borderColor: 'rgba(128,128,128,0.4)', px: '3', py: '2', _focus: { borderColor: 'accent', outline: 'none', boxShadow: 'glowSm' } })"
+            >
+          </label>
+          <template #fallback>
+            <p :class="css({ textStyle: 'label', opacity: 0.55, mt: '1' })">
+              PICK A GAME TO PLAY
+            </p>
+          </template>
+        </ClientOnly>
       </div>
 
       <div :class="css({ display: 'grid', gridTemplateColumns: { base: '1fr', sm: '1fr 1fr' }, gap: '4' })">

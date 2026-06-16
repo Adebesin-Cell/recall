@@ -2,18 +2,18 @@
 import { Dialog } from '@ark-ui/vue/dialog'
 import { useClipboard } from '@vueuse/core'
 import { computed } from 'vue'
-import { encodeRun } from '~/share/codec'
+import type { Entry } from '~/share/board'
+import { encodeChallenge } from '~/share/board'
 import { css } from '~~/styled-system/css'
 
-const props = defineProps<{ seed: number, levelReached: number, score: number, streak: number }>()
+const props = defineProps<{ seed: number, board: Entry[] }>()
 const { copy, copied } = useClipboard()
 
 const shareUrl = computed(() => {
-  const r = encodeRun({ seed: props.seed, levelReached: props.levelReached, score: props.score, streak: props.streak })
+  const c = encodeChallenge({ seed: props.seed, board: props.board })
   const origin = typeof window === 'undefined' ? 'https://recall.app' : window.location.origin
-  // Share the CURRENT game's route so the challenge replays the right mode.
   const path = typeof window === 'undefined' ? '/' : window.location.pathname
-  return `${origin}${path}?r=${r}`
+  return `${origin}${path}?c=${c}`
 })
 </script>
 
@@ -28,9 +28,13 @@ const shareUrl = computed(() => {
     <Dialog.Positioner :class="css({ position: 'fixed', inset: 0, display: 'grid', placeItems: 'center', p: '6' })">
       <Dialog.Content :class="css({ bg: 'ink', color: 'paper', p: '8', maxW: 'md', w: 'full', display: 'grid', gap: '5', border: '1px solid token(colors.violet)', boxShadow: 'glowLg' })">
         <Dialog.Title :class="css({ textStyle: 'display', fontSize: '3xl' })">
-          BEAT MY RUN
+          PASS IT ON
         </Dialog.Title>
-        <p :class="css({ textStyle: 'body', wordBreak: 'break-all', opacity: 0.7 })">
+        <p :class="css({ textStyle: 'body', opacity: 0.7 })">
+          This link carries the whole leaderboard. Whoever opens it plays the same sequence — and
+          their score joins the board.
+        </p>
+        <p :class="css({ textStyle: 'body', wordBreak: 'break-all', opacity: 0.5, fontSize: 'xs' })">
           {{ shareUrl }}
         </p>
         <button

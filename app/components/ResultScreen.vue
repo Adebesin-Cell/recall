@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import GameShareDialog from '~/components/ShareDialog.vue'
 import { css } from '~~/styled-system/css'
 
 defineProps<{
@@ -7,8 +6,7 @@ defineProps<{
   lastGained: number
   streak: number
   level: number
-  seed: number
-  challenge?: { score: number } | null
+  topTarget?: number
 }>()
 defineEmits<{ next: [] }>()
 </script>
@@ -19,7 +17,7 @@ defineEmits<{ next: [] }>()
     :class="css({ w: 'full', maxW: '40rem', bg: 'bg', color: 'fg', display: 'grid', gap: '8', p: { base: '8', md: '10' } })"
   >
     <div>
-      <h1 :class="css({ textStyle: 'display', fontSize: { base: '6xl', md: '8xl' } })">
+      <h1 :class="css({ textStyle: 'display', fontSize: { base: '7xl', md: '8xl' } })">
         GOOD JOB
       </h1>
       <p :class="css({ textStyle: 'label', mt: '2' })">
@@ -37,20 +35,17 @@ defineEmits<{ next: [] }>()
       <p :class="css({ textStyle: 'label', color: 'accent' })">
         STREAK ×{{ streak }}
       </p>
-      <p v-if="challenge" :class="css({ textStyle: 'label', mt: '2' })">
-        {{ score > challenge.score ? `YOU BEAT ${challenge.score}` : `TARGET ${challenge.score}` }}
+      <p v-if="topTarget" :class="css({ textStyle: 'label', mt: '2' })">
+        {{ score > topTarget ? `AHEAD OF THE BOARD (${topTarget})` : `CHASING TOP ${topTarget}` }}
       </p>
     </div>
 
-    <div :class="css({ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4' })">
-      <GameShareDialog :seed="seed" :level-reached="level" :score="score" :streak="streak" />
-      <button
-        type="button"
-        :class="css({ textStyle: 'display', fontSize: 'xl', bg: 'fg', color: 'bg', py: '3', cursor: 'pointer' })"
-        @click="$emit('next')"
-      >
-        NEXT LEVEL
-      </button>
-    </div>
+    <button
+      type="button"
+      :class="css({ textStyle: 'display', fontSize: 'xl', bg: 'fg', color: 'bg', py: '4', cursor: 'pointer' })"
+      @click="$emit('next')"
+    >
+      NEXT LEVEL
+    </button>
   </section>
 </template>

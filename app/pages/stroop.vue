@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import GameOverScreen from '~/components/GameOverScreen.vue'
 import MenuScreen from '~/components/MenuScreen.vue'
 import StroopScreen from '~/components/StroopScreen.vue'
 import { useAutosave } from '~/composables/useAutosave'
+import { useName } from '~/composables/useName'
 import { useTimer } from '~/composables/useTimer'
 import { roundForLevel, type StroopRound, stroopScore, stroopTimeMs } from '~/game/stroop'
-import { decodeRun, encodeRun } from '~/share/codec'
+import { addEntry, decodeChallenge, encodeChallenge, type Entry, sanitizeName, topScore } from '~/share/board'
 import { css } from '~~/styled-system/css'
 
 const frame = css({ minH: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', p: '6' })
 
 const route = useRoute()
 const { profile, recordRun } = useAutosave('stroop')
+const { name } = useName()
 
 type Phase = 'idle' | 'playing' | 'gameover'
 const phase = ref<Phase>('idle')
@@ -21,19 +23,17 @@ const level = ref(1)
 const score = ref(0)
 const streak = ref(0)
 const round = ref<StroopRound | null>(null)
+const finalBoard = ref<Entry[]>([])
+const myIndex = ref(0)
 
-const incoming = decodeRun(typeof route.query.r === 'string' ? route.query.r : '')
+const incoming = decodeChallenge(typeof route.query.c === 'string' ? route.query.c : '')
+const incomingBoard = computed(() => incoming?.board ?? [])
+
 if (incoming) {
-  defineOgImageComponent('OgRun', { score: incoming.score, level: incoming.levelReached })
+  defineOgImageComponent('OgRun', { score: topScore(incoming.board), level: incoming.board[0]?.l ?? 0 })
 }
 
-const timer = useTimer(() => answer(null)) // timeout counts as a miss
-
-function syncUrl() {
-  if (typeof window === 'undefined') return
-  const r = encodeRun({ seed: seed.value, levelReached: level.value, score: score.value, streak: streak.value })
-  window.history.replaceState(window.history.state, '', `?r=${r}`)
-}
+const timer = useTimer(() => answer(null)) // timeout = miss
 
 function newSeed(): number {
   return Math.floor(Math.random() * 2_147_483_647)
@@ -47,7 +47,18 @@ function begin() {
   round.value = roundForLevel(seed.value, 1)
   phase.value = 'playing'
   timer.start(stroopTimeMs(1))
-  syncUrl()
+}
+
+function finishRun() {
+  recordRun({ levelReached: level.value, score: score.value, seed: seed.value })
+  const entry: Entry = { n: sanitizeName(name.value), s: score.value, l: level.value }
+  const board = addEntry(incoming?.board ?? [], entry)
+  finalBoard.value = board
+  myIndex.value = board.indexOf(entry)
+  if (typeof window !== 'undefined') {
+    const c = encodeChallenge({ seed: seed.value, board })
+    window.history.replaceState(window.history.state, '', `?c=${c}`)
+  }
 }
 
 function answer(match: boolean | null) {
@@ -56,8 +67,7 @@ function answer(match: boolean | null) {
   const correct = match !== null && match === round.value.isMatch
   if (!correct) {
     phase.value = 'gameover'
-    recordRun({ levelReached: level.value, score: score.value, seed: seed.value })
-    syncUrl()
+    finishRun()
     return
   }
   score.value += stroopScore(timer.remaining.value, level.value, streak.value)
@@ -65,7 +75,6 @@ function answer(match: boolean | null) {
   level.value += 1
   round.value = roundForLevel(seed.value, level.value)
   timer.start(stroopTimeMs(level.value))
-  syncUrl()
 }
 </script>
 
@@ -79,7 +88,7 @@ function answer(match: boolean | null) {
         tagline="A color word, shown in some ink. Tap whether the ink matches the word — before the clock runs out."
         :best-level="profile.bestLevel"
         :best-score="profile.bestScore"
-        :challenge="incoming"
+        :board="incomingBoard"
         @start="begin"
       />
       <StroopScreen
@@ -97,7 +106,8 @@ function answer(match: boolean | null) {
         :level="level"
         :streak="streak"
         :seed="seed"
-        :challenge="incoming"
+        :board="finalBoard"
+        :my-index="myIndex"
         @again="begin"
       />
     </div>
@@ -109,7 +119,7 @@ function answer(match: boolean | null) {
           tagline="A color word, shown in some ink. Tap whether the ink matches the word — before the clock runs out."
           :best-level="0"
           :best-score="0"
-          :challenge="incoming"
+          :board="incomingBoard"
         />
       </div>
     </template>

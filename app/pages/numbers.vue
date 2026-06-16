@@ -6,36 +6,28 @@ import MenuScreen from '~/components/MenuScreen.vue'
 import RecallScreen from '~/components/RecallScreen.vue'
 import ResultScreen from '~/components/ResultScreen.vue'
 import { useAutosave } from '~/composables/useAutosave'
+import { useName } from '~/composables/useName'
 import { useTimer } from '~/composables/useTimer'
 import { beginRecall, type GameState, nextLevel, startGame, submit } from '~/game/engine'
-import { decodeRun, encodeRun } from '~/share/codec'
+import { addEntry, decodeChallenge, encodeChallenge, type Entry, sanitizeName, topScore } from '~/share/board'
 import { css } from '~~/styled-system/css'
 
 const frame = css({ minH: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', p: '6' })
 
 const route = useRoute()
 const { profile, recordRun } = useAutosave('numbers')
+const { name } = useName()
 
 const state = ref<GameState | null>(null)
+const finalBoard = ref<Entry[]>([])
+const myIndex = ref(0)
 
-// Capture an incoming shared run ONCE — the challenge to beat and the seed to
-// replay. We then overwrite ?r= with the player's own live state as they play.
-const incoming = decodeRun(typeof route.query.r === 'string' ? route.query.r : '')
-const challenge = computed(() => (incoming ? { score: incoming.score } : null))
+// Incoming shared leaderboard challenge (seed + board). Captured once.
+const incoming = decodeChallenge(typeof route.query.c === 'string' ? route.query.c : '')
+const incomingBoard = computed(() => incoming?.board ?? [])
 
 if (incoming) {
-  defineOgImageComponent('OgRun', { score: incoming.score, level: incoming.levelReached })
-}
-
-function syncUrl() {
-  if (!state.value || typeof window === 'undefined') return
-  const r = encodeRun({
-    seed: state.value.seed,
-    levelReached: state.value.level,
-    score: state.value.score,
-    streak: state.value.streak,
-  })
-  window.history.replaceState(window.history.state, '', `?r=${r}`)
+  defineOgImageComponent('OgRun', { score: topScore(incoming.board), level: incoming.board[0]?.l ?? 0 })
 }
 
 const memorizeTimer = useTimer(() => {
@@ -74,14 +66,25 @@ function handleAgain() {
   begin()
 }
 
+// On run end: append my entry to the board and write the new ?c= leaderboard URL.
+function finishRun() {
+  if (!state.value) return
+  recordRun({ levelReached: state.value.level, score: state.value.score, seed: state.value.seed })
+  const entry: Entry = { n: sanitizeName(name.value), s: state.value.score, l: state.value.level }
+  const board = addEntry(incoming?.board ?? [], entry)
+  finalBoard.value = board
+  myIndex.value = board.indexOf(entry)
+  if (typeof window !== 'undefined') {
+    const c = encodeChallenge({ seed: state.value.seed, board })
+    window.history.replaceState(window.history.state, '', `?c=${c}`)
+  }
+}
+
 watch(() => state.value?.phase, (phase) => {
   if (!state.value) return
   if (phase === 'memorize') memorizeTimer.start(state.value.config.memorizeMs)
   if (phase === 'recall') recallTimer.start(state.value.config.inputMs)
-  if (phase === 'gameover' || phase === 'won') {
-    recordRun({ levelReached: state.value.level, score: state.value.score, seed: state.value.seed })
-  }
-  syncUrl()
+  if (phase === 'gameover' || phase === 'won') finishRun()
 })
 </script>
 
@@ -95,7 +98,7 @@ watch(() => state.value?.phase, (phase) => {
         tagline="Memorize the number. Type it back before the timer drains. It only gets faster."
         :best-level="profile.bestLevel"
         :best-score="profile.bestScore"
-        :challenge="incoming"
+        :board="incomingBoard"
         @start="begin"
       />
       <MemorizeScreen
@@ -117,8 +120,7 @@ watch(() => state.value?.phase, (phase) => {
         :last-gained="state.lastGained"
         :streak="state.streak"
         :level="state.level"
-        :seed="state.seed"
-        :challenge="challenge"
+        :top-target="topScore(incomingBoard)"
         @next="handleNext"
       />
       <GameOverScreen
@@ -127,8 +129,9 @@ watch(() => state.value?.phase, (phase) => {
         :level="state.level"
         :streak="state.streak"
         :seed="state.seed"
+        :board="finalBoard"
+        :my-index="myIndex"
         :won="state.phase === 'won'"
-        :challenge="challenge"
         @again="handleAgain"
       />
     </div>
@@ -140,7 +143,7 @@ watch(() => state.value?.phase, (phase) => {
           tagline="Memorize the number. Type it back before the timer drains. It only gets faster."
           :best-level="0"
           :best-score="0"
-          :challenge="incoming"
+          :board="incomingBoard"
         />
       </div>
     </template>
