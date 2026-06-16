@@ -1,0 +1,40 @@
+{
+  "name": "recall",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "codegen": "panda codegen && panda cssgen",
+    "dev": "concurrently -kr \"panda cssgen --watch\" \"nuxt dev\"",
+    "build": "panda codegen && panda cssgen && nuxt build",
+    "generate": "panda codegen && panda cssgen && nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare && panda codegen && panda cssgen",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "oxlint",
+    "format": "oxfmt"
+  },
+  "dependencies": {
+    "@ark-ui/vue": "^5.36.2",
+    "@vueuse/core": "^14.3.0",
+    "@vueuse/nuxt": "^14.3.0",
+    "lz-string": "^1.5.0",
+    "nuxt": "^4.4.4",
+    "nuxt-og-image": "^6.6.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@nuxt/fonts": "^0.10.0",
+    "@nuxt/test-utils": "^3.15.0",
+    "@pandacss/dev": "2.0.0-beta.0",
+    "@pandacss/preset-base": "2.0.0-beta.0",
+    "@pandacss/preset-panda": "2.0.0-beta.0",
+    "@vitejs/plugin-vue": "^5.1.0",
+    "@vue/test-utils": "^2.4.6",
+    "concurrently": "^10.0.3",
+    "happy-dom": "^15.0.0",
+    "oxfmt": "^0.54.0",
+    "oxlint": "^1.69.0",
+    "vitest": "^2.1.0"
+  }
+}
