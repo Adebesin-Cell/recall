@@ -166,6 +166,27 @@ getting-started config and the install step, or fix Finding 1 so the omission is
 
 ---
 
+## Finding 5 — New atomic classes are only live after a regen (watch friction)
+
+**What broke.** Adding a brand-new value to a `css({...})` call (e.g. `h: '100dvh'`) had *no
+effect* in the browser, while an inline `:style="{ height: '100dvh' }"` worked immediately. The CSS
+property was identical — the utility just wasn't in `styles.css` yet.
+
+**Root cause.** In the CLI-build setup, atomic classes only exist after `panda cssgen` re-scans and
+emits them. Until the watcher regenerates (or if the dev server serves stale CSS), a freshly-added
+class name in `:class` points at a rule that doesn't exist. Inline styles bypass codegen entirely, so
+they always apply — which is what made the two look like they behaved differently.
+
+**Workaround.** For layout-critical one-offs, an inline style is fine. Otherwise: ensure
+`cssgen --watch` is running, and re-run `bunx panda cssgen` after adding new utilities. This friction
+is sharper with the CLI-watch path than it would be with a bundler plugin that regenerates in-process.
+
+**Suggested upstream note.** Worth calling out in docs: with the CLI build, new class *names* require
+a regen — HMR doesn't synthesize them. A first-class Nuxt module (or a stable Vite plugin) would
+remove this entirely.
+
+---
+
 ## Net effect on Recall's setup
 
 - `panda.config.ts` declares `presets` explicitly.
