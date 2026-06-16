@@ -33,19 +33,28 @@ before a timer runs out, with difficulty rising across 10 levels.
 
 ## 2. Visual direction
 
-Monochrome **brutalist-editorial** (from the user's reference mockups):
+**Brutalist-editorial structure + neon-glow mood.** Structure comes from the app
+mockups; mood comes from the dark/electric-violet reference pins. **No
+photography** — the "texture" is light and glow, not imagery.
 
-- **Two colors only:** near-black `#0A0A0A`, near-white `#FAFAFA`. Greys are not
-  used decoratively.
-- **Hard black/white split** that doubles as a gameplay signal:
-  **black = under pressure (memorize/recall), white = safe (result).**
+- **Palette (three semantic tokens):**
+  - `bg` near-black `#0A0A0A`
+  - `fg` near-white `#FAFAFA`
+  - `accent` electric violet `~#6C5CE7` (exact hue tunable), carrying **glow
+    shadows**. Greys are not used decoratively.
+- **Two modes that double as a gameplay signal:**
+  - **Pressure (memorize/recall)** — dark base, accent glow on the live element
+    (the number, the timer arc, the active key).
+  - **Safe (result)** — inverts to a clean light surface.
+- **Accent usage** — the glowing accent is reserved for the *live/active* thing
+  on screen (draining timer arc, current number glow, pressed keypad key). It is
+  an attention cue, not decoration.
 - **Heavy compressed display type** for hero text; **tiny uppercase, tracked
   labels** ("CURRENT CHALLENGE"); **tabular monospaced timer** so digits do not
   jitter while counting down.
-- **Near-zero radius, no soft shadows, no gradients.** Flat surfaces.
-- **Duotone portrait photography** for atmosphere — menu and result screens
-  **only**, never during memorize/recall where it would compete with the number.
-- Motion: number flip, draining timer arc, screen invert transition.
+- **Near-zero radius, no gradients as fills.** Flat surfaces; the only "depth"
+  is the accent glow.
+- Motion: number flip, draining glow arc, mode invert transition.
 
 ## 3. Stack & conventions
 
@@ -99,14 +108,14 @@ sequence the original player faced ("beat my run").
 
 ## 5. Screens
 
-- **Menu** — duotone portrait, heavy display title, best score/level, "Start"
-  CTA, and "coming soon" tiles for the other modes.
-- **Memorize** — pure black, giant number (hero), draining arc timer, optional
-  "I've got it" button.
-- **Recall** — pure black, Ark keypad, tabular input timer, current entry.
-- **Result ("GOOD JOB")** — white (inverted), duotone portrait, score, `+PTS`,
-  streak, "Share" and "Next level" actions. Head-to-head banner if arrived via a
-  shared URL.
+- **Menu** — dark, heavy display title with accent glow, best score/level,
+  "Start" CTA, and "coming soon" tiles for the other modes.
+- **Memorize** — dark, giant number (hero) with accent glow, draining glow arc,
+  optional "I've got it" button.
+- **Recall** — dark, Ark keypad (accent on the pressed key), tabular input
+  timer, current entry.
+- **Result ("GOOD JOB")** — light (inverted), score, `+PTS`, streak, "Share" and
+  "Next level" actions. Head-to-head banner if arrived via a shared URL.
 - **Game over** — inverted, final stats, "Share", "Play again".
 
 ## 6. State & persistence
@@ -145,13 +154,16 @@ result screen shows a head-to-head comparison against the shared score.
 ## 7. Panda v2 showcase (the point)
 
 - **Semantic tokens + token modes** — `fg` / `bg` / `accent` defined once and
-  **inverted** for black-pressure vs white-safe screens (headline v2 feature).
+  **inverted** for dark-pressure vs light-safe screens (headline v2 feature).
+- **Glow as a token** — accent glow expressed via `shadows` tokens (e.g.
+  `glow.sm` / `glow.lg`) so the neon effect is systematized, not ad-hoc.
 - **`textStyles`** — `display`, `label`, `body`, `timer` (tabular nums).
-- **Recipes (`cva`)** — `button`, `keypadKey`, `statRow`, `divider`; slot recipe
-  for the result-screen card.
+- **Recipes (`cva`)** — `button`, `keypadKey` (accent-glow on press), `statRow`,
+  `divider`; slot recipe for the result-screen card.
 - **Patterns** — `stack`, `grid` (keypad), `divider` (the thin curved divider +
   dot-on-arc progress marker).
-- **Keyframes / animations** — number flip, timer-arc drain, screen invert.
+- **Keyframes / animations** — number flip, glow-arc drain, mode invert,
+  accent-glow pulse.
 
 ## 8. Module / boundary breakdown
 
@@ -192,5 +204,5 @@ Each unit has one purpose and a clear interface:
 
 - Final game name.
 - Exact `levelConfig` tuning values.
-- Source of duotone portrait photography (licensing).
+- Exact accent hue (`~#6C5CE7` placeholder) and glow intensity — tune live.
 - Whether to add the other 3 modes in a later milestone.
