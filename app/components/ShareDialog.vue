@@ -12,7 +12,7 @@ const { copy, copied } = useClipboard()
 
 const shareUrl = computed(() => {
   const c = encodeChallenge({ seed: props.seed, board: props.board })
-  const origin = typeof window === 'undefined' ? 'https://recall.app' : window.location.origin
+  const origin = typeof window === 'undefined' ? 'https://playrecuerdo.vercel.app' : window.location.origin
   const path = typeof window === 'undefined' ? '/' : window.location.pathname
   return `${origin}${path}?c=${c}`
 })

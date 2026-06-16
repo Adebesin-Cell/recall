@@ -32,4 +32,9 @@ export default defineNuxtConfig({
   ogImage: {
     defaults: { renderer: 'takumi' },
   },
+  vite: {
+    optimizeDeps: {
+      include: ['@ark-ui/vue/dialog', '@vueuse/core', '@vue/devtools-core', '@vue/devtools-kit'],
+    },
+  },
 })
