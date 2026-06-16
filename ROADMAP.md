@@ -22,6 +22,8 @@ direction. Anything unchecked is fair game; open an issue to claim something.
 - [ ] Sound + haptics (toggle in Settings)
 - [ ] Reduced-motion support (respect `prefers-reduced-motion`)
 - [ ] Keyboard play for Numbers/Math (type digits, Enter to submit)
+- [ ] Lean harder on Ark UI — swap the custom keypad for Ark `NumberInput`/`PinInput`,
+      and consider Ark primitives for other inputs (we currently only use Ark `Dialog`)
 - [ ] Accessibility pass (focus order, ARIA for the live timer, color-contrast in light mode)
 
 ## New game ideas
