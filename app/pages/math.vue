@@ -44,7 +44,7 @@ const incomingBoard = computed(() => incoming?.board ?? [])
 const myName = computed(() => sanitizeName(name.value))
 
 if (incoming) {
-  defineOgImageComponent('Run', { score: topScore(incoming.board), level: incoming.board[0]?.l ?? 0 })
+  defineOgImage('Run', { score: topScore(incoming.board), level: incoming.board[0]?.l ?? 0 })
 }
 
 const timer = useTimer(() => submit('')) // timeout = wrong

@@ -14,7 +14,7 @@ useSeoMeta({
 })
 
 // Site-wide default OG image; game pages override it with a per-run card.
-defineOgImageComponent('Default')
+defineOgImage('Default')
 </script>
 
 <template>
