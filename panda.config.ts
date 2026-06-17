@@ -74,7 +74,6 @@ const keyCap = defineRecipe({
   },
 })
 
-// --- Slot recipe (defineSlotRecipe) ----------------------------------------
 
 const panel = defineSlotRecipe({
   className: 'panel',
@@ -87,7 +86,6 @@ const panel = defineSlotRecipe({
   },
 })
 
-// --- Pattern (definePattern) -----------------------------------------------
 
 const frame = definePattern({
   description: 'Full-viewport, flex-centered screen wrapper (scrolls when content is tall)',
@@ -99,7 +97,7 @@ const frame = definePattern({
       alignItems: 'center',
       justifyContent: 'center',
       paddingInline: '6',
-      paddingTop: '6rem', // clear the fixed TopBar
+      paddingTop: '6rem',
       paddingBottom: '2rem',
     }
   },

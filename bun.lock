@@ -17,9 +17,9 @@
       "devDependencies": {
         "@nuxt/fonts": "^0.13.0",
         "@nuxt/test-utils": "^3.15.0",
-        "@pandacss/dev": "2.0.0-beta.0",
-        "@pandacss/preset-base": "2.0.0-beta.0",
-        "@pandacss/preset-panda": "2.0.0-beta.0",
+        "@pandacss/dev": "2.0.0-beta.1",
+        "@pandacss/preset-base": "2.0.0-beta.1",
+        "@pandacss/preset-panda": "2.0.0-beta.1",
         "@takumi-rs/core": "^1.8.5",
         "@vitejs/plugin-vue": "^5.1.0",
         "@vue/test-utils": "^2.4.6",
@@ -448,39 +448,39 @@
 
     "@oxlint/binding-win32-x64-msvc": ["@oxlint/binding-win32-x64-msvc@1.70.0", "", { "os": "win32", "cpu": "x64" }, "sha512-ptOlKwCz7n4AKs5VweMqG6DAg677FmKOK+vBkkL9DMNgFATIQ+upqUYBTOEwRQyRAx1ncGlPlXleV2hIcm3z4g=="],
 
-    "@pandacss/cli": ["@pandacss/cli@2.0.0-beta.0", "", { "dependencies": { "@pandacss/compiler": "2.0.0-beta.0", "@pandacss/compiler-shared": "2.0.0-beta.0", "@pandacss/config": "2.0.0-beta.0", "@parcel/watcher": "2.5.1", "citty": "0.1.6" }, "bin": { "panda": "bin.js", "pandacss": "bin.js" } }, "sha512-h/eqQQ4c1E/8hssdVrStqqocx/2rJUmsMs4gb3iE9VhwNxYUTZVA7I8GX1lYjFzcDPs3jlfAKSuTXdZguNSzvw=="],
+    "@pandacss/cli": ["@pandacss/cli@2.0.0-beta.1", "", { "dependencies": { "@pandacss/compiler": "2.0.0-beta.1", "@pandacss/compiler-shared": "2.0.0-beta.1", "@pandacss/config": "2.0.0-beta.1", "@parcel/watcher": "2.5.1", "citty": "0.1.6", "zod": "^4.0.0" }, "bin": { "panda": "bin.js", "pandacss": "bin.js" } }, "sha512-V94Judi3LNUCuZW3Cvg4nw3d4OKYw6xeEKoy2sjjDkZ+BkjGWs3YukZmPocQz3lQUCrymCvbvztBxfbjX8pdZw=="],
 
-    "@pandacss/compiler": ["@pandacss/compiler@2.0.0-beta.0", "", { "dependencies": { "@pandacss/compiler-shared": "2.0.0-beta.0", "@pandacss/config": "2.0.0-beta.0" }, "optionalDependencies": { "@pandacss/compiler-darwin-arm64": "2.0.0-beta.0", "@pandacss/compiler-darwin-x64": "2.0.0-beta.0", "@pandacss/compiler-linux-arm64-gnu": "2.0.0-beta.0", "@pandacss/compiler-linux-arm64-musl": "2.0.0-beta.0", "@pandacss/compiler-linux-x64-gnu": "2.0.0-beta.0", "@pandacss/compiler-linux-x64-musl": "2.0.0-beta.0", "@pandacss/compiler-win32-arm64-msvc": "2.0.0-beta.0", "@pandacss/compiler-win32-x64-msvc": "2.0.0-beta.0" } }, "sha512-5QnMeX8kEdtnsyemAZzfo/G3/RothHk8DIDmdoJFtJRL6OLGuZQ0sl3/Pkk4DQWEjPBb9utr8kqK6YVij1NNNg=="],
+    "@pandacss/compiler": ["@pandacss/compiler@2.0.0-beta.1", "", { "dependencies": { "@pandacss/compiler-shared": "2.0.0-beta.1", "@pandacss/config": "2.0.0-beta.1" }, "optionalDependencies": { "@pandacss/compiler-darwin-arm64": "2.0.0-beta.1", "@pandacss/compiler-darwin-x64": "2.0.0-beta.1", "@pandacss/compiler-linux-arm64-gnu": "2.0.0-beta.1", "@pandacss/compiler-linux-arm64-musl": "2.0.0-beta.1", "@pandacss/compiler-linux-x64-gnu": "2.0.0-beta.1", "@pandacss/compiler-linux-x64-musl": "2.0.0-beta.1", "@pandacss/compiler-win32-arm64-msvc": "2.0.0-beta.1", "@pandacss/compiler-win32-x64-msvc": "2.0.0-beta.1" } }, "sha512-dkAAMvC28Gq/+4eXOG+mTqsKJNxULyBb+SCSdkcr6V12x/l84nOs10XubV67EQJUlxFKOdkP/LCQwRrayjl/4A=="],
 
-    "@pandacss/compiler-darwin-arm64": ["@pandacss/compiler-darwin-arm64@2.0.0-beta.0", "", { "os": "darwin", "cpu": "arm64" }, "sha512-Ure93Gr/8FLeDQ9b9X8EYk+x3kvFjUUB9AdazlRTfs7f1ct2YsgEZvQpxlRycydtm2fPwaE36aNS30IkVlPfVw=="],
+    "@pandacss/compiler-darwin-arm64": ["@pandacss/compiler-darwin-arm64@2.0.0-beta.1", "", { "os": "darwin", "cpu": "arm64" }, "sha512-Kz7rl01OfOa0+YeM0vOip05/NGklxLJYPPlfkySp+s7U3p52zlF03tGpkLNSprDkOaoy/2AXGOKI20ob2J1ZEQ=="],
 
-    "@pandacss/compiler-darwin-x64": ["@pandacss/compiler-darwin-x64@2.0.0-beta.0", "", { "os": "darwin", "cpu": "x64" }, "sha512-nupOue1jaDHWIWPZ1ig+PozNkEQaBFeFumSBO9uO2lNk3BqAEa+i3qgaJYWbiMrviKOYkwbehDKowvq1NKgbSw=="],
+    "@pandacss/compiler-darwin-x64": ["@pandacss/compiler-darwin-x64@2.0.0-beta.1", "", { "os": "darwin", "cpu": "x64" }, "sha512-IVAsbyTocsHUNwS3zzwSNZOSvQ/XoRDS36TOLIhn2UzVUgOvEmrrAkLd/ALrIXRA2ycg0VIh85kIICrNGzyXhg=="],
 
-    "@pandacss/compiler-linux-arm64-gnu": ["@pandacss/compiler-linux-arm64-gnu@2.0.0-beta.0", "", { "os": "linux", "cpu": "arm64" }, "sha512-owIkNGFMi3N100tVZtx3FxrDM8M0ZMGdxsoHBe/jXwvhzuxzVQ1pS5EE2xeh3YFHiIXJ64y5tt/4P6Kl9kb2fw=="],
+    "@pandacss/compiler-linux-arm64-gnu": ["@pandacss/compiler-linux-arm64-gnu@2.0.0-beta.1", "", { "os": "linux", "cpu": "arm64" }, "sha512-o1bLnSwDmNmdtpWivhdmLWDbKF1Vh55cAnQP8G1Mb+YIJb6pe2cbUHFU0Wi+l2lexaFn2bIXY9np6DzHhE3QNQ=="],
 
-    "@pandacss/compiler-linux-arm64-musl": ["@pandacss/compiler-linux-arm64-musl@2.0.0-beta.0", "", { "os": "linux", "cpu": "arm64" }, "sha512-e5arYZtf5aRDaOr1GGJhw/V9mX4JwenAVnjlQZmUdeUnGWEhPJem45s1hl40p3/V5Cv9l9NzqVOSG+jDx72UtA=="],
+    "@pandacss/compiler-linux-arm64-musl": ["@pandacss/compiler-linux-arm64-musl@2.0.0-beta.1", "", { "os": "linux", "cpu": "arm64" }, "sha512-lFZHUpJkdRyNxOmU8GPxw9+pDVZBoLU7eoNU90+8/jQ0Rc2vfJPvouiFxiNl5leu/zicQPxhvcGk4Bnhqzg+wg=="],
 
-    "@pandacss/compiler-linux-x64-gnu": ["@pandacss/compiler-linux-x64-gnu@2.0.0-beta.0", "", { "os": "linux", "cpu": "x64" }, "sha512-49b68NKmkAFsfbBk+a+Zu++VtKImOAVlDT0E/0A55d5puaiC12Jg6OVzO2f4MaT6gFktFsrNkIjvaMHsL3E5Pw=="],
+    "@pandacss/compiler-linux-x64-gnu": ["@pandacss/compiler-linux-x64-gnu@2.0.0-beta.1", "", { "os": "linux", "cpu": "x64" }, "sha512-U4xiu7W+OXizvqxRnRuuntLXJggueCDGcb4fMRcaL3Ww1BUSSYyRKTHoIWOrOFy4gF/l15s+A3ax2ogx5bJ1Tw=="],
 
-    "@pandacss/compiler-linux-x64-musl": ["@pandacss/compiler-linux-x64-musl@2.0.0-beta.0", "", { "os": "linux", "cpu": "x64" }, "sha512-U0V6JC4amaPQahqVymxp4v5qo+7jYTsO91r08LLUYhamemVYyS+1QfadtGCXny3OwKEbUsuCkBjaMy23fz0m8w=="],
+    "@pandacss/compiler-linux-x64-musl": ["@pandacss/compiler-linux-x64-musl@2.0.0-beta.1", "", { "os": "linux", "cpu": "x64" }, "sha512-xDbXcOX0YoKn+4hdWvDYi0Pk/pKOgI20vgdK3vhF+KI7foLvQu0CBtd6uZLH/m8RRh9XTMmaC7hM2WjYOeVc2w=="],
 
-    "@pandacss/compiler-shared": ["@pandacss/compiler-shared@2.0.0-beta.0", "", {}, "sha512-AsQE+3A+bC0SfP4wSQN/HU5oKvmtMsCBebOIMu8LdOuNwijeuQuIoCZnYsOXHv2Jdne34gB9vFVKbzSbRsxYow=="],
+    "@pandacss/compiler-shared": ["@pandacss/compiler-shared@2.0.0-beta.1", "", {}, "sha512-3f2SUvcR+p9XRkNLzT4ZkBHVSmUML5cvOuwoh6n8r7snjM3q1/xOiRvOA/BukPgMN/VJMuvuYcMYBls2gF/d5w=="],
 
-    "@pandacss/compiler-win32-arm64-msvc": ["@pandacss/compiler-win32-arm64-msvc@2.0.0-beta.0", "", { "os": "win32", "cpu": "arm64" }, "sha512-YYdP/g4UVY5b8fWIL9E/8j+dBjpW2eKjPc6joQlkbEkF9awp+njXsVycGU6TCnWO0vk0LPjUZV50krI8dHEGlA=="],
+    "@pandacss/compiler-win32-arm64-msvc": ["@pandacss/compiler-win32-arm64-msvc@2.0.0-beta.1", "", { "os": "win32", "cpu": "arm64" }, "sha512-qK3Oegtq7mACH7J3az/TkW6WHmskcduxFB5X3p/MSzjtlz5WixcIVqvInSCyTSQfowhieSDdDigJSRHs1Z+1Fg=="],
 
-    "@pandacss/compiler-win32-x64-msvc": ["@pandacss/compiler-win32-x64-msvc@2.0.0-beta.0", "", { "os": "win32", "cpu": "x64" }, "sha512-m6CHST2UQ6+x8HP9ZEr2/lLOkO5M3cEjHj1mcuAv4YUigYixWxdPjLnpuFp/Jf1vP836dKuM8DI5mIVqjw0ERw=="],
+    "@pandacss/compiler-win32-x64-msvc": ["@pandacss/compiler-win32-x64-msvc@2.0.0-beta.1", "", { "os": "win32", "cpu": "x64" }, "sha512-1vykcH9dHU55yc6GSWQ0BN/b1FiqiV1rgU8qXPCB/gNC1Im/p8iuznFUCikKn7sAT9eiMOWMl94EGOJSwC3DIw=="],
 
-    "@pandacss/config": ["@pandacss/config@2.0.0-beta.0", "", { "dependencies": { "@pandacss/compiler-shared": "2.0.0-beta.0", "@pandacss/types": "2.0.0-beta.0", "acorn": "^8.17.0", "acorn-walk": "^8.3.5", "javascript-stringify": "2.1.0", "magic-string": "^0.30.21", "microdiff": "1.5.0", "rolldown": "1.0.0-rc.17" } }, "sha512-ByKkJQ70oUxE5XwMfKTas9uZ4/GVZ149YORc6OFBmnjazhIc2ZkvP22WGRMhkAsuNNerNSYyxdAPIUndEBy4pQ=="],
+    "@pandacss/config": ["@pandacss/config@2.0.0-beta.1", "", { "dependencies": { "@pandacss/compiler-shared": "2.0.0-beta.1", "@pandacss/types": "2.0.0-beta.1", "acorn": "^8.17.0", "acorn-walk": "^8.3.5", "javascript-stringify": "2.1.0", "magic-string": "^0.30.21", "microdiff": "1.5.0", "rolldown": "1.0.0-rc.17" } }, "sha512-rbCpbkSsldYJFMbXbPFzgYP9F29wbsFUiyd2CkhQx0PINmW8h2DL8oG78qpEb6QDD+Fh9254jxpKkcV0PVuiyw=="],
 
-    "@pandacss/dev": ["@pandacss/dev@2.0.0-beta.0", "", { "dependencies": { "@pandacss/cli": "2.0.0-beta.0", "@pandacss/compiler": "2.0.0-beta.0", "@pandacss/config": "2.0.0-beta.0", "@pandacss/postcss": "2.0.0-beta.0", "@pandacss/types": "2.0.0-beta.0" }, "peerDependencies": { "postcss": ">=8" }, "optionalPeers": ["postcss"], "bin": { "panda": "bin.js", "pandacss": "bin.js" } }, "sha512-qou9M6u4xmAq0DEv3yNx/snVcehTbu1DLfjWTuxtfGdBj7JxlwvbHbdnmJQ1yC4lg/dKjmGR6P57vizizN19ng=="],
+    "@pandacss/dev": ["@pandacss/dev@2.0.0-beta.1", "", { "dependencies": { "@pandacss/cli": "2.0.0-beta.1", "@pandacss/compiler": "2.0.0-beta.1", "@pandacss/config": "2.0.0-beta.1", "@pandacss/postcss": "2.0.0-beta.1", "@pandacss/types": "2.0.0-beta.1" }, "peerDependencies": { "postcss": ">=8" }, "optionalPeers": ["postcss"], "bin": { "panda": "bin.js", "pandacss": "bin.js" } }, "sha512-AA/viTmFKFWZoyDv7GYcpr0EGtDVfW3MLYX8jLKZ/wyofKMrM8/tlRgvbuKFlXAHSfeOhpHHwJ9dzUm1G4mL/w=="],
 
-    "@pandacss/postcss": ["@pandacss/postcss@2.0.0-beta.0", "", { "dependencies": { "@pandacss/compiler": "2.0.0-beta.0", "@pandacss/compiler-shared": "2.0.0-beta.0" }, "peerDependencies": { "postcss": ">=8" } }, "sha512-A50ICAVpdcdM5OMKPmuQ8Zhb7SVwgcxeXDR25VvXmiljCFGY4EYchi8vNst2yp3fhFAQv9uTmRmzJOsTGvu/Wg=="],
+    "@pandacss/postcss": ["@pandacss/postcss@2.0.0-beta.1", "", { "dependencies": { "@pandacss/compiler": "2.0.0-beta.1", "@pandacss/compiler-shared": "2.0.0-beta.1" }, "peerDependencies": { "postcss": ">=8" } }, "sha512-dx/Q6Gz40Ac4mUh/NqLZajGt0rTUIID3EsOjfwx1N9ZP1aBuJcsacYhsGtZtt89cMQX0lm+Hdupjy2Pm1LBudQ=="],
 
-    "@pandacss/preset-base": ["@pandacss/preset-base@2.0.0-beta.0", "", { "dependencies": { "@pandacss/types": "2.0.0-beta.0" } }, "sha512-prZK6cmsoKjIypMzl1gD3X8dr0cetKVMrcrQQhXWTvWKTAEMLdkCoCDnbwq8S0bQpjoiPrhxGPYSgbrl9tRRRA=="],
+    "@pandacss/preset-base": ["@pandacss/preset-base@2.0.0-beta.1", "", { "dependencies": { "@pandacss/types": "2.0.0-beta.1" } }, "sha512-np8R9UanxTOgCpvo+MjFmhYaau5NVcvsU8M8bKfnDfJ/f3Z6TXJ/IeSyo3Ao1WcAbcVEIsgPKXVS2bPVhhYvQw=="],
 
-    "@pandacss/preset-panda": ["@pandacss/preset-panda@2.0.0-beta.0", "", { "dependencies": { "@pandacss/types": "2.0.0-beta.0" } }, "sha512-YODGsA3tf4hc2n0EXxWH2jWwG4D7vKhcREcthO/0ta872Aux9L6CZVUUDUGMQVnlsOdfncoss0MeYns12T+DCA=="],
+    "@pandacss/preset-panda": ["@pandacss/preset-panda@2.0.0-beta.1", "", { "dependencies": { "@pandacss/types": "2.0.0-beta.1" } }, "sha512-G6mRhx3lnubP0Tr1AmNndXv05Fmhp5oMPjO4PMip8OfNbUhP3nrqvhSgbmQBX4q3Bdi+XWU8YMvcFvIkAca2lw=="],
 
-    "@pandacss/types": ["@pandacss/types@2.0.0-beta.0", "", {}, "sha512-bwpnkLmS5Ugc+aBIY9l8yDXknW+PPXJ3C9zRW6BplRT9rJoEm10OzkaidRBvz/x4wpEHo/e35METIumGPcgoog=="],
+    "@pandacss/types": ["@pandacss/types@2.0.0-beta.1", "", {}, "sha512-W+gvIlryPOZxcBkzP6quzMio5gIw+fXSnhV4/UWbHxlot9U+GSLoUHCUNjFvA1YyaSf0AtxstOC08fVAImqpkQ=="],
 
     "@parcel/watcher": ["@parcel/watcher@2.5.1", "", { "dependencies": { "detect-libc": "^1.0.3", "is-glob": "^4.0.3", "micromatch": "^4.0.5", "node-addon-api": "^7.0.0" }, "optionalDependencies": { "@parcel/watcher-android-arm64": "2.5.1", "@parcel/watcher-darwin-arm64": "2.5.1", "@parcel/watcher-darwin-x64": "2.5.1", "@parcel/watcher-freebsd-x64": "2.5.1", "@parcel/watcher-linux-arm-glibc": "2.5.1", "@parcel/watcher-linux-arm-musl": "2.5.1", "@parcel/watcher-linux-arm64-glibc": "2.5.1", "@parcel/watcher-linux-arm64-musl": "2.5.1", "@parcel/watcher-linux-x64-glibc": "2.5.1", "@parcel/watcher-linux-x64-musl": "2.5.1", "@parcel/watcher-win32-arm64": "2.5.1", "@parcel/watcher-win32-ia32": "2.5.1", "@parcel/watcher-win32-x64": "2.5.1" } }, "sha512-dfUnCxiN9H4ap84DvD2ubjw+3vUNpstxa0TneY/Paat8a3R4uQZDLSvWjmznAY/DoahqTHl9V46HF/Zs3F29pg=="],
 
